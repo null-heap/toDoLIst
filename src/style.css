@@ -1,3 +1,212 @@
+:root{
+    --base-clr: #F5F3E0;
+    --head-clr: #ECE7C1;
+    --sideBar-clr: #ECE7C1;
+    --line-clr: #FCBF49;
+    --hover-clr: #DF5353;
+    --active-clr: #D93030;
+    --text-clr: black;
+    --secondary-text-clr: grey;
+    --button-clr: #EFA9A9;
+
+    /* svg vars */
+    --svg-calender: url(./resource/calendar-svgrepo-com.svg);
+}
+
+body{
+    background-color: var(--base-clr);
+}
+
 *{
-    /* background-color: black; */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html{ 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5rem;
+}
+
+header{
+    grid-area: 1 / 2 / 2 / 3;
+    display: flex;
+    gap: 1em;
+    justify-content: flex-end;
+    > div{
+        height: 1.5em;
+        width: 1.5em;
+    }
+
+}
+
+button,
+label,
+input,
+select{
+    display: block;
+    font-family: inherit;
+    font-size: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 30px;
+    border-radius: 3px;
+}
+
+button{
+    background-color: var(--button-clr);
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: var(--hover-clr);
+}
+button:active{
+    background-color: var(--active-clr);
+}
+
+#page{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: min-content 1fr;
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    > *{
+        padding: 1em;
+        margin: 0;
+    }
+}
+
+#sideBar{
+    grid-area: 1 / 1 / 3 / 2;
+    background-color: var(--sideBar-clr);
+    width: 20ch;
+    padding: 1em;
+    border-right: 1px solid var(--line-clr);
+
+    transition: 1s ease-in-out;
+    text-wrap: nowrap;
+    overflow: hidden;
+    
+    svg{
+        flex-shrink: 0;
+    }
+
+    button{
+        border: none;
+        background: none;
+        background-color: none;
+        text-align: left;
+    }
+    button:hover{
+        background-color: var(--button-clr);
+    }
+
+    ul > li{
+        svg{
+            height: 2em;
+        }
+
+        display: flex;
+        align-items: center;
+        span{
+            padding-left: 0.5em;
+            flex-grow: 1;
+        }
+    }
+
+    #sideBarTop {
+        margin-left: auto;
+        max-width: 100%;
+        gap: 1em;
+        justify-content: flex-end;
+        padding: 0;
+        margin-bottom: 0.5em;
+    }
+
+    > ul{
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        gap: 1.5em;
+    }
+
+
+}
+/* for all the rotatable svg, controlled through js by adding the rotate class to the parent */
+.rotateEnable{
+    transition: rotate 1s ease;
+}
+
+.rotate .rotateEnable{
+    rotate: 180deg;
+}
+
+#sideBar li:first-child ~ *{
+    opacity: 1;
+    transition-property: display opacity;
+    transition-duration: 1s;
+    transition-behavior: allow-discrete;
+    
+}
+
+@starting-style {
+    #sideBar li:first-child ~ *{
+        opacity: 0;
+    }
+}
+#sideBar.close{
+    padding: 0.5rem;
+    width: 3rem;
+    
+    li:first-child ~ *{
+        overflow: hidden;
+        display: none;
+        opacity: 0;
+    }
+}
+
+#sideBar .dropMenu{
+    display: block;
+
+    > div{
+        gap: 0.5em;
+    }
+    span{
+        font-size: 1.2rem;
+        padding: 0;
+    }
+     div{
+
+        display: flex;
+        align-items: center;
+
+    }
+    button{
+        display: inline;
+    }
+
+
+    #projectsSubMenu{
+        display: grid;
+        grid-template-rows: 0fr;
+        /* list-style: none; */
+        transition: 700ms ease-in-out;
+        > div{
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 1em;
+        }
+
+    }
+
+    #projectsSubMenu.show{
+        grid-template-rows: 1fr;
+
+    }
 }
