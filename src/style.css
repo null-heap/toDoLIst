@@ -66,6 +66,7 @@ button:active{
     background-color: var(--active-clr);
 }
 
+
 #page{
     display: grid;
     grid-template-columns: auto 1fr;
@@ -77,6 +78,18 @@ button:active{
         padding: 1em;
         margin: 0;
     }
+
+    .buttonStyle{
+        background-color: var(--button-clr);
+        padding: 0.5em;
+    }
+    .buttonStyle:hover{
+        background-color: var(--hover-clr);
+    }
+    .buttonStyle:active{
+        background-color: var(--active-clr);
+    }
+
 }
 
 #sideBar{
@@ -100,8 +113,12 @@ button:active{
         background-color: none;
         text-align: left;
     }
+
     button:hover{
         background-color: var(--button-clr);
+    }
+    button:active{
+        background-color: var(--active-clr);
     }
 
     ul > li{
@@ -158,6 +175,49 @@ button:active{
         opacity: 0;
     }
 }
+
+dialog{
+    display: none;
+    opacity: 0;
+    transition-property: display opacity;
+    transition-duration: 1s;
+    transition-behavior: allow-discrete;
+}
+
+dialog[open]{
+    display: block;
+    opacity: 1;
+    translate: 0 0;
+    margin-top: 6rem;
+    /* the transition from close position/ display none because no start value exist when you transition from none */
+    @starting-style{
+        opacity: 0;
+        translate: 0 -25vh;
+    }
+}
+
+
+dialog::backdrop{
+    opacity: 0;
+    transition-property: overlay display opacity ;
+    transition-duration: 1s;
+    transition-behavior: allow-discrete;
+    background-image: linear-gradient(#e66465, #9198e5);;
+}
+
+
+dialog[open]::backdrop{
+    opacity: 0.75;
+}
+
+
+@starting-style{
+    dialog[open]::backdrop{
+        opacity: 0;
+    }
+}
+
+
 #sideBar.close{
     padding: 0.5rem;
     width: 3rem;
@@ -210,3 +270,17 @@ button:active{
 
     }
 }
+
+#sideBar{
+
+    #addTaskButton{
+        width: auto;
+    }
+
+}
+.addTaskDialog{
+    margin: auto;
+    padding: 2em;
+    border-radius: 15px;
+}
+

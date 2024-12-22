@@ -33,14 +33,14 @@ export {sideBarEvents}
 //sideBar click events through closest pattern
 function sideBarEvents()
 {
-  let sideBar = document.querySelector("nav");
+  const sideBar = document.querySelector("nav");
   sideBar.addEventListener("click", (e) => {
     let target;
 
     //for closing and opening the sidebar with svg rotation
     target = e.target.closest("#sideBarTop button");
     if (target) {
-      target.parentNode.classList.toggle("rotate");
+      target.classList.toggle("rotate");
       sideBar.classList.toggle("close");
     }
 
@@ -49,6 +49,14 @@ function sideBarEvents()
       target.classList.toggle("rotate");
       let projectsSubMenu = sideBar.querySelector("#projectsSubMenu");
       projectsSubMenu.classList.toggle("show");
+    }
+
+
+    target = e.target.closest('#addTaskButton');
+    if(target){
+        let dialog = sideBar.querySelector('.addTaskDialog');
+        console.log(dialog);
+        dialog.showModal();
     }
   });
 }
