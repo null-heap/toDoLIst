@@ -154,9 +154,43 @@
             </button>
             <span>Add task</span>
             <dialog class="addTaskDialog">
-                <form method="dialog">
-                    <span>tete</span>
-                    <button class="buttonStyle">Submit</button>
+                <form id="addTaskForm" method="dialog">
+                    <label for="project-choice">Project:</label>
+                    <input type="text" list="project-choice-list" id="project-choice" name="project-choice">
+                    <datalist id="project-choice-list">
+                        <option value="texst"></option>
+                    </datalist>
+
+                    <label for="TaskName">Task Name:</label>
+                    <input type="text" name="TaskName" id="TaskName">
+
+                    <label for="description">Description:</label>
+                    <textarea name="description" id="description"></textarea>
+
+                    <label for="priority-select">Priority:</label>
+                    <select name="priories" id="priority-select">
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option selected value="low">Low</option>
+                    </select>
+
+                    <label for="forToday">For Today?:
+                    <input type="checkbox" name="forToday" id="forToday"></label>
+
+                    <label for="dueDate">Due Date:</label>
+                    <input type="date" name="dueDate" id="dueDate">
+
+                    <label for="status">Status:</label>
+                    <select name="status" id="status">
+                        <option value="completed">Completed</option>
+                        <option selected value="underWay">UnderWay</option>
+                    </select>
+                    
+                    <label for="notes">Notes:</label>
+                    <input type="text" name="notes" id="notes">
+
+                    <button class="buttonStyle" id="addTaskDialogCancel">CANCEL</button>
+                    <button class="buttonStyle" id="addTaskDialogAdd">ADD</button>
                 </form>
             </dialog>
           </li>

@@ -2,7 +2,7 @@ export {createProject, createProjectList}
 
 
 function createProject(name){
-    const projectName = name;
+    const projectName = name.toLowerCase();
     let list = [];
     const addItem = (item) =>{
         list.push(item);
@@ -23,16 +23,23 @@ function createProject(name){
 
     }
 
-    return {projectName, list, addItem, removeItem}
+    const findItemByName = (itemTitle) =>{
+        return list.find(((e) => e.title == itemTitle.toLowerCase()));
+    }
+
+    return {projectName, list, addItem, removeItem, findItemByName}
 }
 
 
 function createProjectList(name){
     const ListName = name;
     let list = [];
+
+
     const addProject = (project) =>{
         list.push(project);
     }
+
     const removeProject = (name) =>{
         let index;
         let remove = list.find((value, indx) =>{
@@ -45,9 +52,19 @@ function createProjectList(name){
         }else{
             console.log("name not found!!");
         }
-        
-
     }
 
-    return {ListName, list, addProject, removeProject}
+    const findProjectByName = (projectName) =>{
+        return list.find(((e) => e.projectName == projectName.toLowerCase()));
+    }
+
+    const getProjectNameArray = () =>{
+        let nameArray = [];
+        list.forEach(project =>{
+            nameArray.push(project.projectName);
+        });
+        return nameArray;
+    };
+
+    return {ListName, list, addProject, removeProject, findProjectByName, getProjectNameArray};
 }

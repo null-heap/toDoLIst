@@ -21,6 +21,7 @@ function Item(title, description, dueDate, priority, notes) {
       this.dueDate = dueDate;
       this.priority = priority;
       this.notes = notes;
+      this.forToday = 0;
       this.complete = 0;
     }
 

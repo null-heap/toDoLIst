@@ -54,6 +54,7 @@ select{
     border-radius: 3px;
 }
 
+
 button{
     background-color: var(--button-clr);
     cursor: pointer;
@@ -282,5 +283,9 @@ dialog[open]::backdrop{
     margin: auto;
     padding: 2em;
     border-radius: 15px;
+
+    form{
+        min-width: 70ch;
+    }
 }
 
