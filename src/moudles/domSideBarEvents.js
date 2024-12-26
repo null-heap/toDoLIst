@@ -65,46 +65,94 @@ function sideBarEvents(projectsList) {
       dialog.showModal();
     }
 
-    //add task dialog behavior
-
+    //add task dialog inside add button behavior
+b
     target = e.target.matches("#addTaskDialogAdd");
     if (target) {
       //reading the values from the form and storing them
-      let formInputValues = sideBar.querySelectorAll("#addTaskForm input");
-      //makeing an object from all the form inputs
-      formInputValues = Array.from(formInputValues).reduce(
-        (acc, input) => ({
-          ...acc,
-          [input.id.toLowerCase()]: input.value,
-        }),
-        {}
-      );
 
-      let formDescriptionValue = sideBar.querySelector(
-        "#addTaskForm textarea"
-      ).value;
-      let formSelectValues = sideBar.querySelectorAll("#addTaskForm select");
-      console.log(`form select value ${formSelectValues}`);
-      console.table(formSelectValues[0].value);
-
-      console.log("form VAlues = ");
-      console.table(formInputValues);
+      let addTaskForm = sideBar.querySelector("#addTaskForm");
+      let formArray = formInputsToArray(addTaskForm);
+      console.table(formArray);
       addItemFromDom(
         projectsList,
-        formInputValues["project-choice"],
-        formInputValues["taskname"],
-        formDescriptionValue,
-        formSelectValues[0].value,
-        formInputValues["fortoday"],
-        formInputValues["duedate"],
-        formSelectValues[1].value,
-        formInputValues["notes"]
+        formArray[0].value,
+        formArray[1].value,
+        formArray[6].value,
+        formArray[3].value,
+        formArray[5].value,
+        formArray[7].value,
+        formArray[4].value,
+        formArray[2].value
       );
       console.log(projectsList);
       //for testing..., it should be done from screen Update function.
-      addTaskDialogUpdateDataList(projectsList);
+      let dataListElement = document.querySelector("#project-choice-list");
+      addTaskDialogUpdateDataList(projectsList, dataListElement);
+    }
+
+    //if pressed outside the dialog form the dialog will close itself.
+    target = e.target.matches("li .addTaskDialog");
+    if (target) {
+      let dialog = sideBar.querySelector(".addTaskDialog");
+      dialog.close();
     }
   });
+}
+
+function formInputsToArray(formElement) {
+    //supports multiple text and select inputs, one date, one textArea, one radio, one checkbox
+    
+  let formTextInputs = formElement.querySelectorAll("input[type='Text']");
+  formTextInputs = Array.from(formTextInputs);
+
+  let formSelectInputs = formElement.querySelectorAll("select");
+  formSelectInputs = Array.from(formSelectInputs);
+
+  let formDateInput = formElement.querySelector("input[type='date']");
+
+  let formTextAreaInput = formElement.querySelector("textarea");
+  //if not selected its going to be null/
+  let formRadioInput = formElement.querySelector("input[type='radio']:checked");
+
+  let formCheckboxInput = formElement.querySelector(
+    "input[type='checkbox']:checked"
+  );
+
+  //handling the values of radio button and checkbox to create unified handling of values.
+  if (formRadioInput) {
+    formRadioInput = {
+      id: "radioInput",
+      value: formRadioInput.id.toLowerCase(),
+    };
+  } else {
+    formRadioInput = {
+      id: "radioInput",
+      value: 0,
+    };
+  }
+
+  if (formCheckboxInput) {
+    formCheckboxInput = {
+      id: "checkboxInput",
+      value: 1,
+    };
+  } else {
+    formCheckboxInput = {
+      id: "checkboxInput",
+      value: 0,
+    };
+  }
+
+  let formInputElements = formTextInputs.concat(
+    formRadioInput,
+    formSelectInputs,
+    formCheckboxInput,
+    formTextAreaInput,
+    formDateInput
+  );
+  console.table(formInputElements);
+  return formInputElements;
 }
 
 function addItemFromDom(
@@ -119,10 +167,9 @@ function addItemFromDom(
   notes
 ) {
   let project = projectsList.findProjectByName(projectName);
-  let newItem = new Item(itemTitle, description, dueDate, priority, notes);
+  let newItem = new Item(itemTitle, description, dueDate, priority, notes, status);
   //the function for forToday and status are separated to update screen there own functions.
   newItem.forToday = forToday;
-  newItem.status = status;
 
   //check if project already exists if not create one, and add item
   if (project) {
@@ -144,8 +191,7 @@ function updateDataList(element, arr) {
   });
 }
 
-function addTaskDialogUpdateDataList(projectList) {
-  let element = document.querySelector("#project-choice-list");
+function addTaskDialogUpdateDataList(projectList, element) {
   let nameList = projectList.getProjectNameArray();
   updateDataList(element, nameList);
 }

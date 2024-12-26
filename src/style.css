@@ -1,291 +1,400 @@
-:root{
-    --base-clr: #F5F3E0;
-    --head-clr: #ECE7C1;
-    --sideBar-clr: #ECE7C1;
-    --line-clr: #FCBF49;
-    --hover-clr: #DF5353;
-    --active-clr: #D93030;
-    --text-clr: black;
-    --secondary-text-clr: grey;
-    --button-clr: #EFA9A9;
-
-    /* svg vars */
-    --svg-calender: url(./resource/calendar-svgrepo-com.svg);
+:root {
+  --base-clr: #f5f3e0;
+  --head-clr: #ece7c1;
+  --sideBar-clr: #ece7c1;
+  --line-clr: #fcbf49;
+  --hover-clr: #df5353;
+  --active-clr: #d93030;
+  --text-clr: black;
+  --secondary-text-clr: grey;
+  --button-clr: #efa9a9;
+  --input-back-clr: #faf9f0;
+  /* svg vars */
+  --svg-calender: url(./resource/calendar-svgrepo-com.svg);
 }
 
-body{
-    background-color: var(--base-clr);
+body {
+  background-color: var(--base-clr);
 }
 
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-html{ 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.5rem;
+html {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.5rem;
 }
 
-header{
-    grid-area: 1 / 2 / 2 / 3;
-    display: flex;
-    gap: 1em;
-    justify-content: flex-end;
-    > div{
-        height: 1.5em;
-        width: 1.5em;
-    }
+/* focus outline reset for browser consistency */
+:focus-visible,
+:focus {
+  box-shadow: none;
+  outline: 3px solid #003049;
+  outline-offset: 2px;
+}
 
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+header {
+  grid-area: 1 / 2 / 2 / 3;
+  display: flex;
+  gap: 1em;
+  justify-content: flex-end;
+  > div {
+    height: 1.5em;
+    width: 1.5em;
+  }
 }
 
 button,
 label,
 input,
-select{
-    display: block;
-    font-family: inherit;
-    font-size: 100%;
-    margin: 0;
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 30px;
-    border-radius: 3px;
+select {
+  display: block;
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  min-height: 30px;
+  border-radius: 3px;
 }
 
-
-button{
-    background-color: var(--button-clr);
-    cursor: pointer;
+input,
+textarea,
+select {
+  border: 1px solid grey;
 }
 
-button:hover{
-    background-color: var(--hover-clr);
-}
-button:active{
-    background-color: var(--active-clr);
+button {
+  background-color: var(--button-clr);
+  cursor: pointer;
 }
 
-
-#page{
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: min-content 1fr;
-    min-height: 100vh;
-    min-height: 100dvh;
-
-    > *{
-        padding: 1em;
-        margin: 0;
-    }
-
-    .buttonStyle{
-        background-color: var(--button-clr);
-        padding: 0.5em;
-    }
-    .buttonStyle:hover{
-        background-color: var(--hover-clr);
-    }
-    .buttonStyle:active{
-        background-color: var(--active-clr);
-    }
-
+button:hover {
+  background-color: var(--hover-clr);
+}
+button:active {
+  background-color: var(--active-clr);
 }
 
-#sideBar{
-    grid-area: 1 / 1 / 3 / 2;
-    background-color: var(--sideBar-clr);
-    width: 20ch;
+#page {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: min-content 1fr;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  > * {
     padding: 1em;
-    border-right: 1px solid var(--line-clr);
+    margin: 0;
+  }
 
-    transition: 1s ease-in-out;
-    text-wrap: nowrap;
-    overflow: hidden;
-    
-    svg{
-        flex-shrink: 0;
+  .buttonStyle {
+    background-color: var(--button-clr);
+    padding: 0.5em;
+  }
+  .buttonStyle:hover {
+    background-color: var(--hover-clr);
+  }
+  .buttonStyle:active {
+    background-color: var(--active-clr);
+  }
+}
+
+#sideBar {
+  grid-area: 1 / 1 / 3 / 2;
+  background-color: var(--sideBar-clr);
+  width: 20ch;
+  padding: 1em;
+  border-right: 1px solid var(--line-clr);
+
+  transition: 1s ease-in-out;
+  text-wrap: nowrap;
+  overflow: hidden;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  button {
+    border: none;
+    background: none;
+    background-color: none;
+    text-align: left;
+  }
+
+  button:hover {
+    background-color: var(--button-clr);
+  }
+  button:active {
+    background-color: var(--active-clr);
+  }
+
+  ul > li {
+    svg {
+      height: 2em;
     }
 
-    button{
-        border: none;
-        background: none;
-        background-color: none;
-        text-align: left;
+    display: flex;
+    align-items: center;
+    span {
+      padding-left: 0.5em;
+      flex-grow: 1;
     }
+  }
 
-    button:hover{
-        background-color: var(--button-clr);
-    }
-    button:active{
-        background-color: var(--active-clr);
-    }
+  #sideBarTop {
+    margin-left: auto;
+    max-width: 100%;
+    gap: 1em;
+    justify-content: flex-end;
+    padding: 0;
+    margin-bottom: 0.5em;
+  }
 
-    ul > li{
-        svg{
-            height: 2em;
-        }
-
-        display: flex;
-        align-items: center;
-        span{
-            padding-left: 0.5em;
-            flex-grow: 1;
-        }
-    }
-
-    #sideBarTop {
-        margin-left: auto;
-        max-width: 100%;
-        gap: 1em;
-        justify-content: flex-end;
-        padding: 0;
-        margin-bottom: 0.5em;
-    }
-
-    > ul{
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        gap: 1.5em;
-    }
-
-
+  > ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 1.5em;
+  }
 }
 /* for all the rotatable svg, controlled through js by adding the rotate class to the parent */
-.rotateEnable{
-    transition: rotate 1s ease;
+.rotateEnable {
+  transition: rotate 1s ease;
 }
 
-.rotate .rotateEnable{
-    rotate: 180deg;
+.rotate .rotateEnable {
+  rotate: 180deg;
 }
 
-#sideBar li:first-child ~ *{
-    opacity: 1;
-    transition-property: display opacity;
-    transition-duration: 1s;
-    transition-behavior: allow-discrete;
-    
+#sideBar li:first-child ~ * {
+  opacity: 1;
+  transition-property: display opacity;
+  transition-duration: 1s;
+  transition-behavior: allow-discrete;
 }
 
 @starting-style {
-    #sideBar li:first-child ~ *{
-        opacity: 0;
-    }
+  #sideBar li:first-child ~ * {
+    opacity: 0;
+  }
 }
 
-dialog{
+dialog {
+  display: none;
+  opacity: 0;
+  transition-property: display opacity;
+  transition-duration: 1s;
+  transition-behavior: allow-discrete;
+}
+
+dialog[open] {
+  display: block;
+  opacity: 1;
+  translate: 0 0;
+  margin-top: 6rem;
+  /* the transition from close position/ display none because no start value exist when you transition from none */
+  @starting-style {
+    opacity: 0;
+    translate: 0 -25vh;
+  }
+}
+
+dialog::backdrop {
+  opacity: 0;
+  transition-property: overlay display opacity;
+  transition-duration: 1s;
+  transition-behavior: allow-discrete;
+  background-image: linear-gradient(#e66465, #9198e5);
+}
+
+dialog[open]::backdrop {
+  opacity: 0.75;
+}
+
+@starting-style {
+  dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+#sideBar.close {
+  padding: 0.5rem;
+  width: 3rem;
+
+  li:first-child ~ * {
+    overflow: hidden;
     display: none;
     opacity: 0;
-    transition-property: display opacity;
-    transition-duration: 1s;
-    transition-behavior: allow-discrete;
+  }
 }
 
-dialog[open]{
-    display: block;
-    opacity: 1;
-    translate: 0 0;
-    margin-top: 6rem;
-    /* the transition from close position/ display none because no start value exist when you transition from none */
-    @starting-style{
-        opacity: 0;
-        translate: 0 -25vh;
+#sideBar .dropMenu {
+  display: block;
+
+  > div {
+    gap: 0.5em;
+  }
+  span {
+    font-size: 1.2rem;
+    padding: 0;
+  }
+  div {
+    display: flex;
+    align-items: center;
+  }
+  button {
+    display: inline;
+  }
+
+  #projectsSubMenu {
+    display: grid;
+    grid-template-rows: 0fr;
+    /* list-style: none; */
+    transition: 700ms ease-in-out;
+    > div {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-left: 1em;
     }
+  }
+
+  #projectsSubMenu.show {
+    grid-template-rows: 1fr;
+  }
 }
 
-
-dialog::backdrop{
-    opacity: 0;
-    transition-property: overlay display opacity ;
-    transition-duration: 1s;
-    transition-behavior: allow-discrete;
-    background-image: linear-gradient(#e66465, #9198e5);;
+#sideBar {
+  #addTaskButton {
+    width: auto;
+  }
 }
+.addTaskDialog {
+  margin: auto;
 
+  border-radius: 15px;
 
-dialog[open]::backdrop{
-    opacity: 0.75;
-}
-
-
-@starting-style{
-    dialog[open]::backdrop{
-        opacity: 0;
-    }
-}
-
-
-#sideBar.close{
-    padding: 0.5rem;
-    width: 3rem;
-    
-    li:first-child ~ *{
-        overflow: hidden;
-        display: none;
-        opacity: 0;
-    }
-}
-
-#sideBar .dropMenu{
-    display: block;
-
-    > div{
-        gap: 0.5em;
-    }
-    span{
-        font-size: 1.2rem;
-        padding: 0;
-    }
-     div{
-
-        display: flex;
-        align-items: center;
-
-    }
-    button{
-        display: inline;
-    }
-
-
-    #projectsSubMenu{
-        display: grid;
-        grid-template-rows: 0fr;
-        /* list-style: none; */
-        transition: 700ms ease-in-out;
-        > div{
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-left: 1em;
-        }
-
-    }
-
-    #projectsSubMenu.show{
-        grid-template-rows: 1fr;
-
-    }
-}
-
-#sideBar{
-
-    #addTaskButton{
-        width: auto;
-    }
-
-}
-.addTaskDialog{
-    margin: auto;
+  form {
+    background-color: var(--base-clr);
+    display: flex;
+    flex-flow: row wrap;
     padding: 2em;
-    border-radius: 15px;
+    height: 30%;
+    gap: 2em;
 
-    form{
-        min-width: 70ch;
+    #textareaDiv {
+      flex: 1 1 auto;
+      textarea {
+        height: 100%;
+        resize: none;
+      }
     }
-}
+    > div {
+      gap: 1em;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
+      > div {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+    #addTaskFormButtons {
+      justify-content: flex-end;
+      gap: 1em;
+      button {
+        margin-top: auto;
+        flex-basis: 30%;
+        text-align: center;
+        flex-grow: 0;
+        height: 3em;
+      }
+    }
+
+    label {
+      padding-right: 1em;
+    }
+    input,
+    select,
+    textarea {
+      display: block;
+      font-family: inherit;
+      font-size: 100%;
+      margin: 0;
+      box-sizing: border-box;
+      width: 40ch;
+      height: 40px;
+      border-radius: 3px;
+      padding: 0.3em;
+      background-color: var(--input-back-clr);
+    }
+
+    div:has(> input[type="checkbox"]) {
+      /* to control the check box I created a dummy div element as a parent with the size of input text element  */
+      width: 40ch;
+      input[type="checkbox"] {
+        margin-right: auto;
+        max-width: 40px;
+        min-width: 15px;
+      }
+    }
+  }
+
+  .radioPriority {
+    display: flex;
+    width: 40ch;
+    justify-content: flex-start;
+    gap: 1em;
+
+    input {
+      appearance: none;
+      border-radius: 50%;
+      width: 1.9em;
+      height: 1em;
+
+      transition: 0.2s all linear;
+    }
+
+    #priority1 {
+      border: 4px solid red;
+    }
+
+    #priority1:checked {
+      border: 10px solid red;
+    }
+
+    #priority2 {
+      border: 4px solid darkorange;
+    }
+
+    #priority2:checked {
+      border: 10px solid darkorange;
+    }
+
+    #priority3 {
+      border: 4px solid darkblue;
+    }
+
+    #priority3:checked {
+      border: 10px solid darkblue;
+    }
+
+    #priority4 {
+      border: 4px solid darkgreen;
+    }
+
+    #priority4:checked {
+      border: 10px solid darkgreen;
+    }
+  }
+}
