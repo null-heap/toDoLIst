@@ -66,7 +66,7 @@ function sideBarEvents(projectsList) {
     }
 
     //add task dialog inside add button behavior
-b
+
     target = e.target.matches("#addTaskDialogAdd");
     if (target) {
       //reading the values from the form and storing them
@@ -86,9 +86,9 @@ b
         formArray[2].value
       );
       console.log(projectsList);
-      //for testing..., it should be done from screen Update function.
-      let dataListElement = document.querySelector("#project-choice-list");
-      addTaskDialogUpdateDataList(projectsList, dataListElement);
+
+      //updating the DOM Values...
+      screenUpdate(projectsList);
     }
 
     //if pressed outside the dialog form the dialog will close itself.
@@ -97,12 +97,60 @@ b
       let dialog = sideBar.querySelector(".addTaskDialog");
       dialog.close();
     }
+
+    //when project submenu add button clicked
+    target = e.target.closest("#addProjectButton");
+    if(target){
+
+    }
+
   });
 }
 
-function formInputsToArray(formElement) {
-    //supports multiple text and select inputs, one date, one textArea, one radio, one checkbox
+function subMenuAddButton(ulElement){
+    //opening the sub menu if not open
+
+
+    //add a list item
     
+    
+    //inside the list item there is a input element
+
+
+    //
+
+}
+
+function screenUpdate(projectsList){
+
+    //updating the project names in select elements
+    let dataListElement = document.querySelector("#project-choice-list");
+    addTaskDialogUpdateDataList(projectsList, dataListElement);
+
+    //update project sidebar submenu
+    updateProjectSubMenuInDom(projectsList);
+
+}
+
+function updateProjectSubMenuInDom(projectsList){
+    let subMenu = document.querySelector('#projectsSubMenu > div');
+    subMenu.innerText = "";
+    let list = projectsList.list;
+    list.forEach(project =>{
+        let newLi = document.createElement('li');
+        let newSpan = document.createElement('span');
+        newSpan.innerText = project.projectName;
+        newLi.appendChild(newSpan);
+        let newNumberSpan = document.createElement('span');
+        newNumberSpan.classList.toggle('numberCount');
+        newNumberSpan.innerText = "    " + project.list.length;
+        newLi.appendChild(newNumberSpan);
+        subMenu.appendChild(newLi);
+    });
+}
+
+function formInputsToArray(formElement) {
+        //supports multiple text and select inputs, one date, one textArea, one radio, one checkbox
   let formTextInputs = formElement.querySelectorAll("input[type='Text']");
   formTextInputs = Array.from(formTextInputs);
 
@@ -112,7 +160,8 @@ function formInputsToArray(formElement) {
   let formDateInput = formElement.querySelector("input[type='date']");
 
   let formTextAreaInput = formElement.querySelector("textarea");
-  //if not selected its going to be null/
+
+  //if not selected its going to be null// handled by the if functions below...
   let formRadioInput = formElement.querySelector("input[type='radio']:checked");
 
   let formCheckboxInput = formElement.querySelector(
@@ -171,6 +220,7 @@ function addItemFromDom(
   //the function for forToday and status are separated to update screen there own functions.
   newItem.forToday = forToday;
 
+
   //check if project already exists if not create one, and add item
   if (project) {
     project.addItem(newItem);
@@ -184,6 +234,8 @@ function addItemFromDom(
 }
 
 function updateDataList(element, arr) {
+
+    element.innerText = "";
   arr.forEach((value) => {
     let newOption = document.createElement("option");
     newOption.value = value;

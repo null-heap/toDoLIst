@@ -112,7 +112,7 @@ button:active {
   width: 20ch;
   padding: 1em;
   border-right: 1px solid var(--line-clr);
-
+  max-height: 100vh;
   transition: 1s ease-in-out;
   text-wrap: nowrap;
   overflow: hidden;
@@ -161,8 +161,9 @@ button:active {
     list-style: none;
     display: flex;
     flex-direction: column;
-    height: 100%;
+
     gap: 1.5em;
+    max-height: 100%;
   }
 }
 /* for all the rotatable svg, controlled through js by adding the rotate class to the parent */
@@ -237,8 +238,11 @@ dialog[open]::backdrop {
 }
 
 #sideBar .dropMenu {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 
+  min-height: 0%;
   > div {
     gap: 0.5em;
   }
@@ -255,21 +259,52 @@ dialog[open]::backdrop {
   }
 
   #projectsSubMenu {
+    width: 100%;
+
+    min-height: 0%;
+
     display: grid;
     grid-template-rows: 0fr;
-    /* list-style: none; */
+    list-style: none;
     transition: 700ms ease-in-out;
+
     > div {
       overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      margin-left: 1em;
+      gap: 0.5em;
+
+      li {
+        
+        width: 100%;
+        border-bottom: 0.7px solid darkblue;
+        display: flex;
+        justify-content: space-between;
+        padding: 0.3em 0.4em;
+
+        span {
+          overflow: hidden;
+        }
+      }
+
+      .numberCount {
+        flex-grow: 0;
+        flex-shrink: 0;
+        padding: 0 0.4em;
+        border-radius: 15px;
+        background-color: var(--active-clr);
+      }
     }
   }
-
   #projectsSubMenu.show {
     grid-template-rows: 1fr;
+
+    div {
+        /* look better when the menu closes the scroll bar wont appear */
+        overflow: auto;
+        overflow-x: hidden;
+    }
   }
 }
 
