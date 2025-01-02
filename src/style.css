@@ -276,7 +276,6 @@ dialog[open]::backdrop {
       gap: 0.5em;
 
       li {
-        
         width: 100%;
         border-bottom: 0.7px solid darkblue;
         display: flex;
@@ -296,14 +295,29 @@ dialog[open]::backdrop {
         background-color: var(--active-clr);
       }
     }
+
+    #addProjectLi {
+        padding: 0.3em 0.2em;
+        gap: 0.3em;
+    
+    > button{
+        font-size: 10px;
+
+    }
+      #addProjectInput {
+        /* lets flex take care of it... */
+        min-width: 0ch;
+      }
+    }
   }
+
   #projectsSubMenu.show {
     grid-template-rows: 1fr;
 
     div {
-        /* look better when the menu closes the scroll bar wont appear */
-        overflow: auto;
-        overflow-x: hidden;
+      /* look better when the menu closes the scroll bar wont appear */
+      overflow: auto;
+      overflow-x: hidden;
     }
   }
 }

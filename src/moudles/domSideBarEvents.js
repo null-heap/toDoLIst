@@ -100,57 +100,98 @@ function sideBarEvents(projectsList) {
 
     //when project submenu add button clicked
     target = e.target.closest("#addProjectButton");
-    if(target){
+    if (target) {
+      //opening the sub menu if not open
+      //make sure the submenu is open...
+      let dropDownBtn = sideBar.querySelector(".dropMenu .dropDownBtn");
+      dropDownBtn.classList.add("rotate");
+      let projectsSubMenu = sideBar.querySelector("#projectsSubMenu");
+      projectsSubMenu.classList.add("show");
 
+      let ulDiv = projectsSubMenu.querySelector("div");
+      subMenuAddButton(ulDiv, projectsList);
     }
-
   });
 }
 
-function subMenuAddButton(ulElement){
-    //opening the sub menu if not open
+function subMenuAddButton(ulDivElement, projectList) {
 
-
+  //the if statement helps avoid adding twice if case if its already present
+  if (!ulDivElement.querySelector("#addProjectLi")) {
     //add a list item
-    
-    
-    //inside the list item there is a input element
 
+    let newElements = {
+      li: document.createElement("li"),
+      div: document.createElement("div"),
+      input: document.createElement("input"),
+      button: document.createElement("button"),
+    };
 
-    //
+    newElements.li.id = "addProjectLi";
+    newElements.li.appendChild(newElements.input);
+    newElements.input.id = "addProjectInput";
+    newElements.li.appendChild(newElements.button);
 
-}
+    newElements.button.innerText = "ADD";
+    newElements.button.classList.add("buttonStyle");
 
-function screenUpdate(projectsList){
+    //good practice to stop events when not needed anymore, if the event is still attached to an element that not deleted, it will still be active
+    //even if its father funciton is ended
+    const abortSignal = new AbortController();
 
-    //updating the project names in select elements
-    let dataListElement = document.querySelector("#project-choice-list");
-    addTaskDialogUpdateDataList(projectsList, dataListElement);
-
-    //update project sidebar submenu
-    updateProjectSubMenuInDom(projectsList);
-
-}
-
-function updateProjectSubMenuInDom(projectsList){
-    let subMenu = document.querySelector('#projectsSubMenu > div');
-    subMenu.innerText = "";
-    let list = projectsList.list;
-    list.forEach(project =>{
-        let newLi = document.createElement('li');
-        let newSpan = document.createElement('span');
-        newSpan.innerText = project.projectName;
-        newLi.appendChild(newSpan);
-        let newNumberSpan = document.createElement('span');
-        newNumberSpan.classList.toggle('numberCount');
-        newNumberSpan.innerText = "    " + project.list.length;
-        newLi.appendChild(newNumberSpan);
-        subMenu.appendChild(newLi);
+    newElements.button.addEventListener("click", () => {
+      let newProject = createProject(newElements.input.value);
+      projectList.addProject(newProject);
+      screenUpdate(projectList);
+      newElements.li.remove();
+      //stops any next event from happening
+      abortSignal.abort();
     });
+    //close the li if clicked outside,
+
+    
+    document.addEventListener("click", (e) => {
+      if (
+        !e.target.closest("#addProjectLi") &&
+        !e.target.closest("#addProjectButton")
+      ) {
+        newElements.li.remove();
+        abortSignal.abort();
+      }
+    },{signal: abortSignal.signal});
+
+    ulDivElement.insertBefore(newElements.li, ulDivElement.firstChild);
+  }
+}
+
+function screenUpdate(projectsList) {
+  //updating the project names in select elements
+  let dataListElement = document.querySelector("#project-choice-list");
+  addTaskDialogUpdateDataList(projectsList, dataListElement);
+
+  //update project sidebar submenu
+  updateProjectSubMenuInDom(projectsList);
+}
+
+function updateProjectSubMenuInDom(projectsList) {
+  let subMenu = document.querySelector("#projectsSubMenu > div");
+  subMenu.innerText = "";
+  let list = projectsList.list;
+  list.forEach((project) => {
+    let newLi = document.createElement("li");
+    let newSpan = document.createElement("span");
+    newSpan.innerText = project.projectName;
+    newLi.appendChild(newSpan);
+    let newNumberSpan = document.createElement("span");
+    newNumberSpan.classList.toggle("numberCount");
+    newNumberSpan.innerText = "    " + project.list.length;
+    newLi.appendChild(newNumberSpan);
+    subMenu.appendChild(newLi);
+  });
 }
 
 function formInputsToArray(formElement) {
-        //supports multiple text and select inputs, one date, one textArea, one radio, one checkbox
+  //supports multiple text and select inputs, one date, one textArea, one radio, one checkbox
   let formTextInputs = formElement.querySelectorAll("input[type='Text']");
   formTextInputs = Array.from(formTextInputs);
 
@@ -216,10 +257,16 @@ function addItemFromDom(
   notes
 ) {
   let project = projectsList.findProjectByName(projectName);
-  let newItem = new Item(itemTitle, description, dueDate, priority, notes, status);
+  let newItem = new Item(
+    itemTitle,
+    description,
+    dueDate,
+    priority,
+    notes,
+    status
+  );
   //the function for forToday and status are separated to update screen there own functions.
   newItem.forToday = forToday;
-
 
   //check if project already exists if not create one, and add item
   if (project) {
@@ -234,8 +281,7 @@ function addItemFromDom(
 }
 
 function updateDataList(element, arr) {
-
-    element.innerText = "";
+  element.innerText = "";
   arr.forEach((value) => {
     let newOption = document.createElement("option");
     newOption.value = value;
