@@ -1,73 +1,6 @@
 export { createToDoItemAsElement };
 
 function createToDoItemAsElement(toDoItem) {
-  // let mainDiv = document.querySelector('#main');
-
-  //create all the needed elements with their initial value...
-  //   let itemElement = {
-  //     mainDiv: document.createElement("div"),
-
-  //     nameSpan: (function () {
-  //       let span = document.createElement("span");
-  //       span.innerText = toDoItem.title;
-  //       return span;
-  //     })(),
-
-  //     dueDateSpan: (function () {
-  //       let span = document.createElement("span");
-  //       span.innerText = toDoItem.dueDate;
-  //       return span;
-  //     })(),
-
-  //     notesSpan: (function () {
-  //       let span = document.createElement("span");
-  //       span.innerText = toDoItem.notes;
-  //       return span;
-  //     })(),
-
-  //     rightButton: document.createElement("button"),
-
-  //     rightDiv: (function () {
-  //       let div = document.createElement("div");
-  //       div.classList.add("rightDiv");
-
-  //       return div;
-  //     })(),
-  //     descriptionSpan: (function () {
-  //       let span = document.createElement("span");
-  //       span.innerText = toDoItem.description;
-  //       return span;
-  //     })(),
-
-  //     bottomButton: document.createElement("button"),
-  //     bottomDiv: (function () {
-  //       let div = document.createElement("div");
-  //       div.classList.add("bottomDiv");
-  //       return div;
-  //     })(),
-
-  //     todayCheckBox: (function () {
-  //       let checkBox = document.createElement("input");
-  //       checkBox.type = "checkbox";
-  //       checkBox.classList.add("todayCheckBox");
-  //       // if(toDoItem.forToday){
-  //       //     checkBox.checked = true;
-  //       // }
-  //       checkBox.checked = toDoItem.forToday;
-  //       return checkBox;
-  //     })(),
-
-  //     completeCheckBox: (function () {
-  //       let checkBox = document.createElement("input");
-  //       checkBox.type = "checkbox";
-  //       checkBox.classList.add("completeCheckBox");
-  //       if (toDoItem.status == "completed") {
-  //         checkBox.checked = true;
-  //       }
-
-  //       return checkBox;
-  //     })(),
-  //   };
 
   let mainDiv = document.createElement("div");
   mainDiv.classList.add("toDoItemDiv");
@@ -106,9 +39,6 @@ function createToDoItemAsElement(toDoItem) {
   let todayCheckBox = document.createElement("input");
   todayCheckBox.type = "checkbox";
   todayCheckBox.classList.add("todayCheckBox");
-  // if(toDoItem.forToday){
-  //     checkBox.checked = true;
-  // }
   todayCheckBox.checked = toDoItem.forToday;
   //
 
@@ -132,31 +62,13 @@ function createToDoItemAsElement(toDoItem) {
   mainDiv.appendChild(bottomDiv);
   mainDiv.appendChild(bottomButton);
   console.log(toDoItem.priority);
+
+  //set border by priority...
   mainDiv = setBorderByPriority(mainDiv, toDoItem.priority);
-
-  ///setting border by priority
-
-  //   itemElement.mainDiv.appendChild(itemElement.nameSpan);
-  //   itemElement.mainDiv.appendChild(itemElement.dueDateSpan);
-  //   itemElement.mainDiv.appendChild(itemElement.notesSpan);
-
-  //   itemElement.rightDiv.appendChild(itemElement.descriptionSpan);
-  //   itemElement.mainDiv.appendChild(itemElement.rightDiv);
-  //   itemElement.mainDiv.appendChild(itemElement.rightButton);
-
-  //   itemElement.bottomDiv.appendChild(itemElement.todayCheckBox);
-  //   itemElement.bottomDiv.appendChild(itemElement.completeCheckBox);
-  //   itemElement.mainDiv.appendChild(itemElement.bottomDiv);
-  //   itemElement.mainDiv.appendChild(itemElement.bottomButton);
-
   return mainDiv;
 }
 
 function setBorderByPriority(div, priority) {
-
-    //converting to a number from string
-    //or i can just state every number as string...
-//   priority = +priority;
 
   switch (priority) {
     case 1:
@@ -164,7 +76,6 @@ function setBorderByPriority(div, priority) {
       break;
 
     case 2:
-        console.log("INNNN");
       div.style.borderTop = "4px solid darkorange";
       break;
 

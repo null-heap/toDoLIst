@@ -83,7 +83,7 @@ function sideBarEvents(projectsList) {
         formArray[0].value, //projectName
         formArray[1].value, //itemTitle
         formArray[6].value, //description
-        +(formArray[3].value.slice(-1)), //priority, slicing to create standard value...
+        +(formArray[3].value.slice(-1)), //priority, slicing to create standard value... and converting from string...
         formArray[5].value, //forToday
         formArray[7].value, //dueDate
         formArray[4].value, //status
