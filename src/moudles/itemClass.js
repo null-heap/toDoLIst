@@ -41,56 +41,7 @@ function Item(title, description, dueDate, priority, notes, status) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 ///create full toDo item/ add the modules to the object/ the facade pattern
 function toDoOperation(item) {
   {

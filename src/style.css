@@ -254,9 +254,6 @@ dialog[open]::backdrop {
     display: flex;
     align-items: center;
   }
-  button {
-    display: inline;
-  }
 
   #projectsSubMenu {
     width: 100%;
@@ -267,7 +264,11 @@ dialog[open]::backdrop {
     grid-template-rows: 0fr;
     list-style: none;
     transition: 700ms ease-in-out;
-
+    button {
+      min-height: 10px;
+      padding: 0 0.4em;
+      overflow: hidden;
+    }
     > div {
       overflow: hidden;
       display: flex;
@@ -280,7 +281,7 @@ dialog[open]::backdrop {
         border-bottom: 0.7px solid darkblue;
         display: flex;
         justify-content: space-between;
-        padding: 0.3em 0.4em;
+        padding: 0.3em 0;
 
         span {
           overflow: hidden;
@@ -297,13 +298,13 @@ dialog[open]::backdrop {
     }
 
     #addProjectLi {
-        padding: 0.3em 0.2em;
-        gap: 0.3em;
-    
-    > button{
-        font-size: 10px;
+      padding: 0.3em 0.2em;
+      gap: 0.3em;
 
-    }
+      > button {
+        font-size: 10px;
+        flex-shrink: 0;
+      }
       #addProjectInput {
         /* lets flex take care of it... */
         min-width: 0ch;
@@ -446,4 +447,12 @@ dialog[open]::backdrop {
       border: 10px solid darkgreen;
     }
   }
+}
+
+#main {
+  grid-area: 2 /2 /3/ 3;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px,1fr));
+  grid-auto-rows: minmax(100px, auto);
+  
 }

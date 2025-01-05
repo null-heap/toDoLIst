@@ -1,7 +1,7 @@
 export { sideBarEvents };
 import { createProject, createProjectList } from "./projectCreate.js";
 import { Item } from "./itemClass.js";
-
+import { createToDoItemAsElement } from "./domToDoItem.js";
 //first option
 
 //event delegation through function
@@ -72,18 +72,22 @@ function sideBarEvents(projectsList) {
       //reading the values from the form and storing them
 
       let addTaskForm = sideBar.querySelector("#addTaskForm");
+
+      //i should've created a function that converted it to an object,
+      //i would've been easier to access...
       let formArray = formInputsToArray(addTaskForm);
       console.table(formArray);
+
       addItemFromDom(
         projectsList,
-        formArray[0].value,
-        formArray[1].value,
-        formArray[6].value,
-        formArray[3].value,
-        formArray[5].value,
-        formArray[7].value,
-        formArray[4].value,
-        formArray[2].value
+        formArray[0].value, //projectName
+        formArray[1].value, //itemTitle
+        formArray[6].value, //description
+        +(formArray[3].value.slice(-1)), //priority, slicing to create standard value...
+        formArray[5].value, //forToday
+        formArray[7].value, //dueDate
+        formArray[4].value, //status
+        formArray[2].value //notes
       );
       console.log(projectsList);
 
@@ -179,16 +183,23 @@ function updateProjectSubMenuInDom(projectsList) {
   let list = projectsList.list;
   list.forEach((project) => {
     let newLi = document.createElement("li");
+    let newButton = document.createElement('button');
+    // newButton.classList.add('buttonStyle');
+
     let newSpan = document.createElement("span");
     newSpan.innerText = project.projectName;
-    newLi.appendChild(newSpan);
+    newButton.appendChild(newSpan);
+    newLi.appendChild(newButton);
+
     let newNumberSpan = document.createElement("span");
     newNumberSpan.classList.toggle("numberCount");
     newNumberSpan.innerText = "    " + project.list.length;
     newLi.appendChild(newNumberSpan);
+
     subMenu.appendChild(newLi);
   });
 }
+
 
 function formInputsToArray(formElement) {
   //supports multiple text and select inputs, one date, one textArea, one radio, one checkbox
@@ -257,6 +268,8 @@ function addItemFromDom(
   notes
 ) {
   let project = projectsList.findProjectByName(projectName);
+  
+
   let newItem = new Item(
     itemTitle,
     description,
@@ -268,6 +281,7 @@ function addItemFromDom(
   //the function for forToday and status are separated to update screen there own functions.
   newItem.forToday = forToday;
 
+
   //check if project already exists if not create one, and add item
   if (project) {
     project.addItem(newItem);
@@ -278,6 +292,10 @@ function addItemFromDom(
 
     //datalist function
   }
+
+  let newItemDiv = createToDoItemAsElement(newItem);
+    let mainDiv = document.querySelector('#main');
+    mainDiv.appendChild(newItemDiv);
 }
 
 function updateDataList(element, arr) {
