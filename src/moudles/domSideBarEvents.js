@@ -2,43 +2,8 @@ export { sideBarEvents };
 import { createProject, createProjectList } from "./projectCreate.js";
 import { Item } from "./itemClass.js";
 import { createToDoItemAsElement } from "./domToDoItem.js";
-//first option
-
-//event delegation through function
-// function addGlobalEventListener(type, closest, callback){
-//     document.addEventListener(type, e =>{
-//         let target = e.target;
-//         //even if its child is pressed it will change to the appropriate target through closest.
-//         if(target.closest(closest)){
-//             target = target.closest(closest);
-//             callback(target);
-//         }
-//     });
-// }
-
-// addGlobalEventListener('click','#sideBarTop button', (e) =>{
-//     e.parentNode.classList.toggle("rotate");
-//     let sideBar = document.querySelector('nav');
-//     sideBar.classList.toggle("close");
-// });
-
-//
-
-//second option.
-//event delegation
-//sideBar click events through closest pattern
-
-// let project = createProject("my");
-// projectList.addProject(project);
-
-// let toDoItem = new Item("fd", "fdfd", "000", "fdfd", ".");
-// console.log(toDoItem);
-
-// project.addItem(toDoItem);
-
-// console.log(project.list[0]);
-// console.log(project.removeItem("fds"));
-// console.log(project.list);
+import {formInputsToObject ,getCheckedRadioInput} from "./functionsForForms.js"
+import { screenUpdate } from "./screenController.js";
 
 function sideBarEvents(projectsList) {
   const sideBar = document.querySelector("nav");
@@ -73,6 +38,10 @@ function sideBarEvents(projectsList) {
 
       let addTaskForm = sideBar.querySelector("#addTaskForm");
       addItemFromDom(projectsList, addTaskForm);
+
+
+      ///if ID exists deletes it
+
       screenUpdate(projectsList);
     }
 
@@ -151,209 +120,6 @@ function subMenuAddButton(ulDivElement, projectList) {
   }
 }
 
-function screenUpdate(projectsList) {
-  //updating the project names in select elements
-  let dataListElement = document.querySelector("#project-choice-list");
-  addTaskDialogUpdateDataList(projectsList, dataListElement);
-
-  //update project sidebar submenu
-  updateProjectSubMenuInDom(projectsList);
-}
-
-function updateProjectSubMenuInDom(projectsList) {
-  let subMenu = document.querySelector("#projectsSubMenu > div");
-  subMenu.innerText = "";
-  let list = projectsList.list;
-  list.forEach((project) => {
-    let newLi = document.createElement("li");
-    let newButton = document.createElement("button");
-    // newButton.classList.add('buttonStyle');
-
-    let newSpan = document.createElement("span");
-    newSpan.innerText = project.projectName;
-    newButton.appendChild(newSpan);
-    newLi.appendChild(newButton);
-
-    let newNumberSpan = document.createElement("span");
-    newNumberSpan.classList.toggle("numberCount");
-    newNumberSpan.innerText = "    " + project.list.length;
-    newLi.appendChild(newNumberSpan);
-
-    subMenu.appendChild(newLi);
-  });
-}
-
-function formInputsToArray(formElement) {
-  //supports multiple text and select inputs, one date, one textArea, one radio, one checkbox
-  let formTextInputs = formElement.querySelectorAll("input[type='Text']");
-  console.log("sfsdfsdfsdf");
-  console.log(formTextInputs);
-  formTextInputs = Array.from(formTextInputs);
-  console.log(formTextInputs);
-  let formSelectInputs = formElement.querySelectorAll("select");
-  formSelectInputs = Array.from(formSelectInputs);
-
-  let formDateInput = formElement.querySelector("input[type='date']");
-
-  let formTextAreaInput = formElement.querySelector("textarea");
-
-  //if not selected its going to be null// handled by the if functions below...
-  let formRadioInput = formElement.querySelector("input[type='radio']:checked");
-
-  let formCheckboxInput = formElement.querySelector(
-    "input[type='checkbox']:checked"
-  );
-
-  //handling the values of radio button and checkbox to create unified handling of values.
-  if (formRadioInput) {
-    //making a standard value form the add task dialog
-    if (formRadioInput.id.length > 5) {
-      formRadioInput = {
-        id: "radioInput",
-        value: +formRadioInput.id.slice(-1),
-      };
-    } else {
-      formRadioInput = {
-        id: "radioInput",
-        value: formRadioInput.id.toLowerCase(),
-      };
-    }
-  } else {
-    formRadioInput = {
-      id: "radioInput",
-      value: 0,
-    };
-  }
-
-  if (formCheckboxInput) {
-    formCheckboxInput = {
-      id: "checkboxInput",
-      value: 1,
-    };
-  } else {
-    formCheckboxInput = {
-      id: "checkboxInput",
-      value: 0,
-    };
-  }
-
-  let formInputElements = formTextInputs.concat(
-    formRadioInput,
-    formSelectInputs,
-    formCheckboxInput,
-    formTextAreaInput,
-    formDateInput
-  );
-  console.table(formInputElements);
-  return formInputElements;
-}
-
-//return an object that is values contain node list for the type of inputs...
-function formInputsToObject(formElement) {
-  //supports multiple text's, select's input's, date's, textArea's, checkbox's, one radio group.
-  let formTextInputs = formElement.querySelectorAll("input[type='Text']");
-
-  let formSelectInputs = formElement.querySelectorAll("select");
-
-  let formDateInputs = formElement.querySelectorAll("input[type='date']");
-
-  let formTextAreaInputs = formElement.querySelectorAll("textarea");
-
-  //if not selected its going to be null// handled by the if functions below...
-  let formRadioInputs = formElement.querySelectorAll("input[type='radio']");
-
-  let formCheckboxInputs = formElement.querySelectorAll(
-    "input[type='checkbox']"
-  );
-
-
-  //converts a node list to normal object and make it easier to access the object properties by naming them by there id
-  formTextInputs = standardNodeList(formTextInputs);
-  formSelectInputs = standardNodeList(formSelectInputs);
-  formDateInputs = standardNodeList(formDateInputs);
-  formTextAreaInputs = standardNodeList(formTextAreaInputs);
-  formRadioInputs = standardNodeList(formRadioInputs);
-  formCheckboxInputs = standardNodeList(formCheckboxInputs);
-
-  let formInputElements = {
-    textInputs: { ...formTextInputs },
-    selectInputs: { ...formSelectInputs },
-    dateInputs: { ...formDateInputs },
-    textAreaInputs: { ...formTextAreaInputs },
-    radioInputs: { ...formRadioInputs },
-    checkBoxInputs: { ...formCheckboxInputs },
-  };
-
-  
-  //make the elements easier to access..., by changing there object name to there id
-  //i might could've done it in a cleaner way by converting to array and using map with reduce,
-//   for (let key in formInputElements) {
-//     let newFormInputElements = {};
-//     if (formInputElements.hasOwnProperty(key)) {
-//       // for(let element in formInputElements[key]){
-//       //     if(formInputElements[key].hasOwnProperty(element))
-//       //     {
-//       //         newFormInputElements = {
-//       //         ...newFormInputElements,
-//       //         [formInputElements[key][element].id]: formInputElements[key][element] ,
-//       //         }
-//       //     }
-//       // }
-
-//       formInputElements[key] = { ...newFormInputElements };
-//     }
-//   }
-
-  // let inputArray = Object.entries(formInputElements);
-
-  // let finalObject = inputArray.map((elementObject))
-
-  console.table(formInputElements);
-  return formInputElements;
-}
-
-//converts a node list to normal object and make it easier to access the object properties by naming them by there id
-function standardNodeList(nodeList) {
-  let newObject = {};
-
-  nodeList.forEach((element) => {
-    newObject = {
-      ...newObject,
-      [element.id]: element,
-    };
-  });
-
-  return newObject;
-}
-
-function getCheckedRadioInput(radioInputs) {
-  let inputArray = Object.entries(radioInputs);
-  let checkedInput = inputArray.find((e) => e[1].checked);
-
-  checkedInput = checkedInput[1];
-
-  if (checkedInput) {
-    //making a standard value form the add task dialog
-    if (checkedInput.id.length > 5) {
-      checkedInput = {
-        id: "radioInput",
-        value: +checkedInput.id.slice(-1),
-      };
-    } else {
-      checkedInput = {
-        id: "radioInput",
-        value: checkedInput.id.toLowerCase(),
-      };
-    }
-  } else {
-    checkedInput = {
-      id: "radioInput",
-      value: 0,
-    };
-  }
-  return checkedInput;
-}
-
 function addItemFromDom(projectsList, addTaskForm) {
   let formInputs = formInputsToObject(addTaskForm);
   console.table(formInputs);
@@ -366,9 +132,6 @@ function addItemFromDom(projectsList, addTaskForm) {
   const status =  formInputs.selectInputs['status'].value;
   const notes = formInputs.textInputs['notes'].value;
   let project = projectsList.findProjectByName(projectName);
-
-
-  console.log('priority ===  ' + priority);
 
   let newItem = new Item(
     itemTitle,
@@ -397,16 +160,3 @@ function addItemFromDom(projectsList, addTaskForm) {
   mainDiv.appendChild(newItemDiv);
 }
 
-function updateDataList(element, arr) {
-  element.innerText = "";
-  arr.forEach((value) => {
-    let newOption = document.createElement("option");
-    newOption.value = value;
-    element.appendChild(newOption);
-  });
-}
-
-function addTaskDialogUpdateDataList(projectList, element) {
-  let nameList = projectList.getProjectNameArray();
-  updateDataList(element, nameList);
-}
