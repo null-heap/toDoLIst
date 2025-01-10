@@ -1,5 +1,9 @@
-export { createToDoItemAsElement, addItemFromDom, toDoItemsClickEvents, addItemToDom
- };
+export {
+  createToDoItemAsElement,
+  addItemFromDom,
+  toDoItemsClickEvents,
+  addItemToDom,
+};
 import {
   formInputsToObject,
   getCheckedRadioInput,
@@ -8,6 +12,7 @@ import {
 } from "./functionsForForms.js";
 import { Item } from "./itemClass.js";
 import { createProject } from "./projectCreate.js";
+import { screenUpdate } from "./screenController.js";
 
 function createToDoItemAsElement(toDoItem) {
   let mainDiv = document.createElement("div");
@@ -194,8 +199,6 @@ function toDoItemsClickEvents(projectsList) {
       topDiv.classList.toggle("hide");
     }
 
-
-
     target = e.target.closest(".editButton");
     if (target) {
       //get the item id
@@ -203,8 +206,6 @@ function toDoItemsClickEvents(projectsList) {
 
       //find its object
       let toDoItem = projectsList.findItemById(itemId);
-
-    
 
       let editTaskForm = mainDiv.querySelector("#editTaskForm");
       //clear dialog form and the itemId from the form
@@ -216,35 +217,53 @@ function toDoItemsClickEvents(projectsList) {
       //open dialog
       let editDialog = mainDiv.querySelector("#editTaskDialog");
 
-
       editDialog.showModal();
     }
 
+    target = e.target.matches("#editTaskDialogAdd");
+    if (target) {
+      //need to get the item id through the dialog modal
 
-    target = e.target.matches('#editTaskDialogAdd');
-    if(target){
-        //need to get the item id through the dialog modal
+      //need to delete the dom Item /// maybe just screenUpdate() --
 
-        //need to delete the dom Item /// maybe just screenUpdate() -- 
+      //i have two option
+      //replace individually the item div in dom or
+      //just screenUpdate -- it will recreate all the dom items...
+      //what is the best practice??
 
-        //i have two option
-        //replace individually the item div in dom or
-        //just screenUpdate -- it will recreate all the dom items...
-        //what is the best practice??
+      //i will replace individually for now...
 
-        //i will replace individually for now...
-        
       //get the item id
 
       let editTaskForm = mainDiv.querySelector("#editTaskForm");
       let itemId = editTaskForm.dataset.itemId;
       //find its object
-       projectsList.deleteItemById(itemId);
-       
-       let newItem = addItemFromDom(projectsList, editTaskForm, itemId);
+      projectsList.deleteItemById(itemId);
 
-       //replace item in Dom...
-       replaceItemInDomById(newItem);
+      let newItem = addItemFromDom(projectsList, editTaskForm, itemId);
+
+      //replace item in Dom...
+      replaceItemInDomById(newItem);
+
+      //update the changes
+      screenUpdate(projectsList);
+    }
+
+    target = e.target.closest(".deleteButton");
+    if (target) {
+      //get the item id
+      let item = target.closest(".toDoItemDiv");
+
+      let result = confirm(
+        "Are you sure your want to delete item " + item.dataset.itemId + " ???"
+      );
+      if(result){
+        projectsList.deleteItemById(item.dataset.itemId);
+        item.remove();
+
+        screenUpdate(projectsList);
+      }
+      //delete from dom..
     }
   });
 }
@@ -263,27 +282,27 @@ function addItemFromDom(projectsList, taskForm, id) {
 
   let newItem;
   //if id is supplied and not already exists will add the supplied id...
-  if(id && !(projectsList.findItemById(id))){
+  if (id && !projectsList.findItemById(id)) {
     newItem = new Item(
-        itemTitle,
-        description,
-        dueDate,
-        priority,
-        notes,
-        status, 
-        id
-      );
- }else{
+      itemTitle,
+      description,
+      dueDate,
+      priority,
+      notes,
+      status,
+      id
+    );
+  } else {
     newItem = new Item(
-        itemTitle,
-        description,
-        dueDate,
-        priority,
-        notes,
-        status
-      );
- }
-    
+      itemTitle,
+      description,
+      dueDate,
+      priority,
+      notes,
+      status
+    );
+  }
+
   //the function for forToday and status are separated to update screen there own functions.
   newItem.forToday = forToday;
 
@@ -294,27 +313,25 @@ function addItemFromDom(projectsList, taskForm, id) {
     project = createProject(projectName);
     projectsList.addProject(project);
     project.addItem(newItem);
-
-    
   }
 
-   //just for testing
-//    addItemToDom(newItem)
+  //just for testing
+  //    addItemToDom(newItem)
 
   return newItem;
-
- 
 }
 
-function replaceItemInDomById(newItem){
-    let mainDiv = document.querySelector('#main');
-    let oldDomItem = mainDiv.querySelector(`[class="toDoItemDiv"][data-item-id="${newItem.id}"]`);
-    let newDomItem = createToDoItemAsElement(newItem);
-    oldDomItem.replaceWith(newDomItem);
+function replaceItemInDomById(newItem) {
+  let mainDiv = document.querySelector("#main");
+  let oldDomItem = mainDiv.querySelector(
+    `[class="toDoItemDiv"][data-item-id="${newItem.id}"]`
+  );
+  let newDomItem = createToDoItemAsElement(newItem);
+  oldDomItem.replaceWith(newDomItem);
 }
 
-function addItemToDom(newItem){
-    let newItemDiv = createToDoItemAsElement(newItem);
-    let mainDiv = document.querySelector("#main");
-    mainDiv.appendChild(newItemDiv);
+function addItemToDom(newItem) {
+  let newItemDiv = createToDoItemAsElement(newItem);
+  let mainDiv = document.querySelector("#main");
+  mainDiv.appendChild(newItemDiv);
 }

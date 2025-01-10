@@ -5,7 +5,11 @@ function screenUpdate(projectsList) {
     //updating the project names in select elements
     let dataListElement = document.querySelector("#project-choice-list");
     addTaskDialogUpdateDataList(projectsList, dataListElement);
-  
+
+    //no need anymore for it..., will use just one dataList for the task form's
+    // let dataListElement = document.querySelectorAll("#project-choice-list");
+    // dataListElement.forEach(element => addTaskDialogUpdateDataList(projectsList, element));
+
     //update project sidebar submenu
     updateProjectSubMenuInDom(projectsList);
   }

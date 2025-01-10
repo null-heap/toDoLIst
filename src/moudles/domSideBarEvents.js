@@ -38,6 +38,10 @@ function sideBarEvents(projectsList) {
 
       let addTaskForm = sideBar.querySelector("#addTaskForm");
       let newItem = addItemFromDom(projectsList, addTaskForm);
+
+
+
+      //for testing
       addItemToDom(newItem);
 
 
