@@ -110,8 +110,8 @@ function preFillFormFromItem(taskForm, toDoItem, projectsList){
   formInputs.textInputs['notes'].value = toDoItem.notes;
 }
 
-
-function clearForm(taskForm){
+//gets form element and a boolean value for clear id if it should do it...
+function clearForm(taskForm, clearId){
   let formObject = formInputsToObject(taskForm);
 
   let formArray = Object.entries(formObject);
@@ -127,8 +127,11 @@ function clearForm(taskForm){
       });
   });
   //clear the last itemId if exists, i might should've just made a generic form attribute cleaner... as better practice
-  if(taskForm.hasAttribute('data-item-id')){
+  if(clearId)
+    {
+      if(taskForm.hasAttribute('data-item-id')){
     taskForm.removeAttribute('data-item-id');
   }
+}
 
 }

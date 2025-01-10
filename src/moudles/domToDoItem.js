@@ -14,6 +14,8 @@ import { Item } from "./itemClass.js";
 import { createProject } from "./projectCreate.js";
 import { screenUpdate } from "./screenController.js";
 
+import setToDoComplete from "./setToDoComplete.js"
+
 function createToDoItemAsElement(toDoItem) {
   let mainDiv = document.createElement("div");
   mainDiv.classList.add("toDoItemDiv");
@@ -145,6 +147,10 @@ function createToDoItemAsElement(toDoItem) {
 
 function setBorderByPriority(div, priority) {
   switch (priority) {
+    case 0:
+        div.style.borderTop = div.style.borderLeft;
+        break;
+
     case 1:
       div.style.borderTop = "4px solid red";
       break;
@@ -209,7 +215,7 @@ function toDoItemsClickEvents(projectsList) {
 
       let editTaskForm = mainDiv.querySelector("#editTaskForm");
       //clear dialog form and the itemId from the form
-      clearForm(editTaskForm);
+      clearForm(editTaskForm, true);
       //set the itemId on the form
       editTaskForm.dataset.itemId = itemId;
       //prefill dialog form
@@ -265,6 +271,41 @@ function toDoItemsClickEvents(projectsList) {
       }
       //delete from dom..
     }
+
+    //checkbox forToday functionality
+    target = e.target.matches('.toDoItemDiv .todayCheckBox');
+    if(target){
+        let toDoItemDiv = e.target.closest('.toDoItemDiv');
+        let toDoItemObject = projectsList.findItemById(toDoItemDiv.dataset.itemId);
+        let checkBox = toDoItemDiv.querySelector('.todayCheckBox');
+
+        ///might implement as function in the future
+        toDoItemObject.forToday = checkBox.checked;
+        console.log(toDoItemObject);
+    }
+
+
+    //complete checkbox functionality
+    target = e.target.matches('.toDoItemDiv .completeCheckBox');
+    if(target){
+        let toDoItemDiv = e.target.closest('.toDoItemDiv');
+        let toDoItemObject = projectsList.findItemById(toDoItemDiv.dataset.itemId);
+        let checkBox = toDoItemDiv.querySelector('.completeCheckBox');
+        
+        console.log(toDoItemObject);
+        if(checkBox.checked){
+            
+            setToDoComplete(toDoItemObject);
+            setBorderByPriority(toDoItemDiv, toDoItemObject.priority);
+        }
+    }
+
+    target = e.target.closest('#editTaskFormClear');
+    if(target){
+        e.preventDefault();
+        let editForm = mainDiv.querySelector('#editTaskForm');
+        clearForm(editForm, false);
+    }
   });
 }
 
@@ -276,7 +317,7 @@ function addItemFromDom(projectsList, taskForm, id) {
   const priority = getCheckedRadioInput(formInputs.radioInputs).value;
   const forToday = formInputs.checkBoxInputs["forToday"].checked;
   const dueDate = formInputs.dateInputs["dueDate"].value;
-  const status = formInputs.selectInputs["status"].value;
+  const status = (formInputs.selectInputs["status"].value == "complete") ? 1 : 0;
   const notes = formInputs.textInputs["notes"].value;
   let project = projectsList.findProjectByName(projectName);
 
@@ -303,6 +344,8 @@ function addItemFromDom(projectsList, taskForm, id) {
     );
   }
 
+
+
   //the function for forToday and status are separated to update screen there own functions.
   newItem.forToday = forToday;
 
@@ -315,9 +358,7 @@ function addItemFromDom(projectsList, taskForm, id) {
     project.addItem(newItem);
   }
 
-  //just for testing
-  //    addItemToDom(newItem)
-
+  console.log(newItem)
   return newItem;
 }
 

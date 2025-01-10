@@ -4,7 +4,9 @@ import { createProject} from "./projectCreate.js";
 import { addItemFromDom, addItemToDom } from "./domToDoItem.js";
 
 import { screenUpdate } from "./screenController.js";
-
+import {
+    clearForm,
+  } from "./functionsForForms.js";
 function sideBarEvents(projectsList) {
   const sideBar = document.querySelector("nav");
   sideBar.addEventListener("click", (e) => {
@@ -68,6 +70,14 @@ function sideBarEvents(projectsList) {
 
       let ulDiv = projectsSubMenu.querySelector("div");
       subMenuAddButton(ulDiv, projectsList);
+    }
+
+    //form clear button functionality
+    target = e.target.closest('#addTaskFormClear');
+    if(target){
+        e.preventDefault();
+        let taskForm = sideBar.querySelector('#addTaskForm');
+        clearForm(taskForm, false);
     }
   });
 }

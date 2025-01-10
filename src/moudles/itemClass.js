@@ -15,4 +15,12 @@ function Item(title, description, dueDate, priority, notes, status, id) {
       this.forToday = 0;
       this.status = status;
       this.id = id ? id : getId();
+
+
+
+    //    this.setToDoComplete = function(item){
+    //     item.complete = 1;
+    //     item.dueDate = "00.00.00";
+    //     item.priority = 0;
+    // }
     }
