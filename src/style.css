@@ -226,7 +226,6 @@ dialog[open]::backdrop {
   }
 }
 
-
 #sideBar.close {
   padding: 0.5rem;
   width: 3rem;
@@ -330,12 +329,8 @@ dialog[open]::backdrop {
   }
 }
 
-
-
-
-
-
-#sideBarAddTaskDialog, #editTaskDialog {
+#sideBarAddTaskDialog,
+#editTaskDialog {
   margin: auto;
 
   border-radius: 15px;
@@ -366,7 +361,8 @@ dialog[open]::backdrop {
         justify-content: space-between;
       }
     }
-    #addTaskFormButtons, #editTaskFormButtons {
+    #addTaskFormButtons,
+    #editTaskFormButtons {
       justify-content: flex-end;
       gap: 1em;
       button {
@@ -405,53 +401,59 @@ dialog[open]::backdrop {
         min-width: 15px;
       }
     }
-  }
 
-  .radioPriority {
-    display: flex;
-    width: 40ch;
-    justify-content: flex-start;
-    gap: 1em;
+    .radioPriority {
+      display: flex;
+      width: 40ch;
+      justify-content: flex-start;
+      gap: 1em;
 
-    input {
-      appearance: none;
-      border-radius: 50%;
-      width: 1.9em;
-      height: 1em;
+      input {
+        appearance: none;
+        border-radius: 50%;
+        width: 1.9em;
+        height: 1em;
 
-      transition: 0.2s all linear;
+        transition: 0.2s all linear;
+      }
+
+      #priority1 {
+        border: 4px solid red;
+      }
+
+      #priority1:checked {
+        border: 10px solid red;
+      }
+
+      #priority2 {
+        border: 4px solid darkorange;
+      }
+
+      #priority2:checked {
+        border: 10px solid darkorange;
+      }
+
+      #priority3 {
+        border: 4px solid darkblue;
+      }
+
+      #priority3:checked {
+        border: 10px solid darkblue;
+      }
+
+      #priority4 {
+        border: 4px solid darkgreen;
+      }
+
+      #priority4:checked {
+        border: 10px solid darkgreen;
+      }
     }
 
-    #priority1 {
-      border: 4px solid red;
-    }
-
-    #priority1:checked {
-      border: 10px solid red;
-    }
-
-    #priority2 {
-      border: 4px solid darkorange;
-    }
-
-    #priority2:checked {
-      border: 10px solid darkorange;
-    }
-
-    #priority3 {
-      border: 4px solid darkblue;
-    }
-
-    #priority3:checked {
-      border: 10px solid darkblue;
-    }
-
-    #priority4 {
-      border: 4px solid darkgreen;
-    }
-
-    #priority4:checked {
-      border: 10px solid darkgreen;
+    .formClearButton{
+        border-radius: 40px;
+        max-width: 3em;
+        margin-right: 1em;
     }
   }
 }
@@ -459,7 +461,7 @@ dialog[open]::backdrop {
 #main {
   grid-area: 2 /2 /3/ 3;
   display: flex;
-  
+
   flex-wrap: wrap;
   align-content: start;
   /* max-width: 80vw;
@@ -471,140 +473,122 @@ dialog[open]::backdrop {
   gap: 1.5em;
 }
 
-.toDoItemDiv{
-    max-height: fit-content;
-    min-width: min-content;
-    border: 2px solid var(--line-clr);
-    border-radius: 1.5em;
-    padding-left: 1em;
-    padding-top: 0.5em;
-    display: grid;
+.toDoItemDiv {
+  max-height: fit-content;
+  min-width: min-content;
+  border: 2px solid var(--line-clr);
+  border-radius: 1.5em;
+  padding-left: 1em;
+  padding-top: 0.5em;
+  display: grid;
 
-    grid-template-columns: repeat(3, min-content);
-    grid-template-rows: min-content min-content min-content min-content;
-    gap: 1em;
-    button{
-        border: none;
+  grid-template-columns: repeat(3, min-content);
+  grid-template-rows: min-content min-content min-content min-content;
+  gap: 1em;
+  button {
+    border: none;
+  }
+  .rightButton {
+    grid-area: 1 / 3 / 5 / 4;
+    height: 80%;
+    align-self: center;
+    margin-top: -0.5em;
+    width: 5px;
+  }
+  .bottomButton {
+    grid-area: 4 /1 /5 /4;
+    min-height: 5px;
+    width: 90%;
+    margin-left: -1em;
+    justify-self: center;
+  }
+
+  .topDiv {
+    /* border: 1px solid black; */
+    /* margin-top: -0.8em; */
+    display: flex;
+    max-height: 1.5ch;
+    justify-content: space-between;
+
+    grid-row: 1 / 2;
+    grid-column: 1 / 3;
+
+    .editButton {
+      margin-left: auto;
+      margin-right: 1em;
     }
-    .rightButton{
-        grid-area: 1 / 3 / 5 / 4;
-        height: 80%;
-        align-self: center;
-        margin-top: -0.5em;
-        width: 5px;
-    }
-    .bottomButton{
-        grid-area: 4 /1 /5 /4;
-        min-height: 5px;
-        width: 90%;
-        margin-left: -1em;
-        justify-self: center;
+    button {
+      min-height: 25px;
+      width: 25px;
+
+      border-radius: 20px;
     }
 
-
-    .topDiv{
-        /* border: 1px solid black; */
-        /* margin-top: -0.8em; */
-        display: flex;
-        max-height: 1.5ch;
-        justify-content: space-between;
-        
-        grid-row: 1 / 2;
-        grid-column: 1 / 3;
-
-        .editButton{
-            margin-left: auto;
-            margin-right: 1em;
-        }
-        button{
-            min-height: 25px;
-            width: 25px;
-            
-            border-radius: 20px;
-        }
-
-        .editButton::before{
-            
-            content: "✎";
-            
-        }
-
-        .deleteButton:before{
-            content:"␡";
-            
-            position: relative;
-            top: -0.2em
-            
-        }
-        
-
+    .editButton::before {
+      content: "✎";
     }
-    .startDiv{
-        grid-area: 2 / 1 / 3 /2;
-       span{
-        text-wrap: nowrap;
-       }
-     }
 
-     
+    .deleteButton:before {
+      content: "␡";
 
-     .rightDiv{
-        grid-area: 2/ 2 / 3 / 3 ;
-        
-        .textDiv{
-            max-width: 30ch;
-            flex-direction: column;
-            > span:first-child{
-                border-bottom: 0.5px solid grey;
-            }
-            p{
-                word-wrap: break-word;
+      position: relative;
+      top: -0.2em;
+    }
+  }
+  .startDiv {
+    grid-area: 2 / 1 / 3 /2;
+    span {
+      text-wrap: nowrap;
+    }
+  }
 
-            }
-        }
-        
-     }
-     .bottomDiv{
-        overflow: hidden;
-        grid-area: 3 / 1 / 4 / 2 ;
-    
-     }
+  .rightDiv {
+    grid-area: 2/ 2 / 3 / 3;
 
-     >div.hide{
-        display: none;
-     }
-
-
-     /* created the collapse the be able to handle the gap resizing  */
-     .startDiv.bottomCollapse{
-        grid-area: 2 / 1 / 4 / 2;
-     }
-     
-     .startDiv.rightCollapse{
-        grid-area: 1 / 1 / 3 / 3;
-     }
-
-     .startDiv.bottomCollapse.rightCollapse{
-        grid-area: 1 / 1 / 4 / 3;
-     }
-
-
-     .textDiv{
-        
+    .textDiv {
+      max-width: 30ch;
+      flex-direction: column;
+      > span:first-child {
         border-bottom: 0.5px solid grey;
+      }
+      p {
+        word-wrap: break-word;
+      }
+    }
+  }
+  .bottomDiv {
+    overflow: hidden;
+    grid-area: 3 / 1 / 4 / 2;
+  }
 
-        display: flex;
-        > span:first-child{
-            width: 11ch;
-            text-wrap: nowrap; 
-        }
+  > div.hide {
+    display: none;
+  }
 
-        
-        input{
-            margin-right: auto;
-        }
+  /* created the collapse the be able to handle the gap resizing  */
+  .startDiv.bottomCollapse {
+    grid-area: 2 / 1 / 4 / 2;
+  }
 
-        
-    } 
+  .startDiv.rightCollapse {
+    grid-area: 1 / 1 / 3 / 3;
+  }
 
+  .startDiv.bottomCollapse.rightCollapse {
+    grid-area: 1 / 1 / 4 / 3;
+  }
+
+  .textDiv {
+    border-bottom: 0.5px solid grey;
+
+    display: flex;
+    > span:first-child {
+      width: 11ch;
+      text-wrap: nowrap;
+    }
+
+    input {
+      margin-right: auto;
+    }
+  }
 }
