@@ -153,7 +153,7 @@
               </svg>
             </button>
             <span>Add task</span>
-            <dialog class="addTaskDialog">
+            <dialog id="sideBarAddTaskDialog">
               <form id="addTaskForm" method="dialog">
                 <div>
                   <div>
@@ -179,7 +179,7 @@
                     />
                   </div>
 
-                  <div id="textareaDiv">
+                  <div class="textareaDiv">
                     <label for="description">Description:</label>
                     <textarea
                       name="description"
@@ -378,6 +378,83 @@
         </ul>
       </nav>
       <div id="main">
+        <div>
+            <dialog id="editTaskDialog">
+                <form id="editTaskForm" method="dialog">
+                  <div>
+                    <div>
+                      <label for="project-choice">Project:</label>
+                      <input
+                        type="text"
+                        list="project-choice-list"
+                        id="project-choice"
+                        name="project-choice"
+                      />
+                      <datalist id="project-choice-list">
+                        <option value="texst"></option>
+                      </datalist>
+                    </div>
+                    <div>
+                      <label for="TaskName">Task Name:</label>
+                      <input
+                        type="text"
+                        name="TaskName"
+                        id="TaskName"
+                        placeholder="Task Name:"
+                      />
+                    </div>
+                    <div class="textareaDiv">
+                      <label for="description">Description:</label>
+                      <textarea
+                        name="description"
+                        id="description"
+                        placeholder="Description:"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div>
+                    <div>
+                      <span>Priority:</span>
+                      <div class="radioPriority">
+                        <input type="radio" name="priority" id="priority1" />
+                        <input type="radio" name="priority" id="priority2" />
+                        <input type="radio" name="priority" id="priority3" />
+                        <input type="radio" name="priority" id="priority4" />
+                      </div>
+                    </div>
+                    <div>
+                      <label for="forToday">Today?:</label>
+                      <div>
+                        <input type="checkbox" name="forToday" id="forToday" />
+                      </div>
+                    </div>
+                    <div>
+                      <label for="dueDate">Due Date:</label>
+                      <input type="date" name="dueDate" id="dueDate" />
+                    </div>
+                    <div>
+                      <label for="status">Status:</label>
+                      <select name="status" id="status">
+                        <option value="completed">Completed</option>
+                        <option selected value="underWay">UnderWay</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label for="notes">Notes:</label>
+                      <input type="text" name="notes" id="notes" />
+                    </div>
+                    <div id="editTaskFormButtons">
+                      <button class="buttonStyle" id="editTaskDialogCancel">
+                        CANCEL
+                      </button>
+                      <button class="buttonStyle" id="editTaskDialogAdd">
+                        EDIT
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </dialog>
+        </div>
       </div>
     </div>
   </body>

@@ -226,6 +226,7 @@ dialog[open]::backdrop {
   }
 }
 
+
 #sideBar.close {
   padding: 0.5rem;
   width: 3rem;
@@ -328,7 +329,13 @@ dialog[open]::backdrop {
     width: auto;
   }
 }
-.addTaskDialog {
+
+
+
+
+
+
+#sideBarAddTaskDialog, #editTaskDialog {
   margin: auto;
 
   border-radius: 15px;
@@ -341,7 +348,7 @@ dialog[open]::backdrop {
     height: 30%;
     gap: 2em;
 
-    #textareaDiv {
+    .textareaDiv {
       flex: 1 1 auto;
       textarea {
         height: 100%;
@@ -359,7 +366,7 @@ dialog[open]::backdrop {
         justify-content: space-between;
       }
     }
-    #addTaskFormButtons {
+    #addTaskFormButtons, #editTaskFormButtons {
       justify-content: flex-end;
       gap: 1em;
       button {

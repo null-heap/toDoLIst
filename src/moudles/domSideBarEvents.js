@@ -1,8 +1,8 @@
 export { sideBarEvents };
-import { createProject, createProjectList } from "./projectCreate.js";
-import { Item } from "./itemClass.js";
-import { createToDoItemAsElement } from "./domToDoItem.js";
-import {formInputsToObject ,getCheckedRadioInput} from "./functionsForForms.js"
+import { createProject} from "./projectCreate.js";
+
+import { addItemFromDom, addItemToDom } from "./domToDoItem.js";
+
 import { screenUpdate } from "./screenController.js";
 
 function sideBarEvents(projectsList) {
@@ -26,7 +26,7 @@ function sideBarEvents(projectsList) {
 
     target = e.target.closest("#addTaskButton");
     if (target) {
-      let dialog = sideBar.querySelector(".addTaskDialog");
+      let dialog = sideBar.querySelector("#sideBarAddTaskDialog");
       dialog.showModal();
     }
 
@@ -37,18 +37,18 @@ function sideBarEvents(projectsList) {
       //reading the values from the form and storing them
 
       let addTaskForm = sideBar.querySelector("#addTaskForm");
-      addItemFromDom(projectsList, addTaskForm);
+      let newItem = addItemFromDom(projectsList, addTaskForm);
+      addItemToDom(newItem);
 
 
-      ///if ID exists deletes it
 
       screenUpdate(projectsList);
     }
 
     //if pressed outside the dialog form the dialog will close itself.
-    target = e.target.matches("li .addTaskDialog");
+    target = e.target.matches("li #sideBarAddTaskDialog");
     if (target) {
-      let dialog = sideBar.querySelector(".addTaskDialog");
+      let dialog = sideBar.querySelector("#sideBarAddTaskDialog");
       dialog.close();
     }
 
@@ -118,45 +118,5 @@ function subMenuAddButton(ulDivElement, projectList) {
 
     ulDivElement.insertBefore(newElements.li, ulDivElement.firstChild);
   }
-}
-
-function addItemFromDom(projectsList, addTaskForm) {
-  let formInputs = formInputsToObject(addTaskForm);
-  console.table(formInputs);
-  const projectName = formInputs.textInputs['project-choice'].value;
-  const itemTitle = formInputs.textInputs['TaskName'].value;
-  const description = formInputs.textAreaInputs['description'].value;
-  const priority = getCheckedRadioInput(formInputs.radioInputs).value;
-  const forToday = formInputs.checkBoxInputs['forToday'].checked;
-  const dueDate = formInputs.dateInputs['dueDate'].value;
-  const status =  formInputs.selectInputs['status'].value;
-  const notes = formInputs.textInputs['notes'].value;
-  let project = projectsList.findProjectByName(projectName);
-
-  let newItem = new Item(
-    itemTitle,
-    description,
-    dueDate,
-    priority,
-    notes,
-    status
-  );
-  //the function for forToday and status are separated to update screen there own functions.
-  newItem.forToday = forToday;
-
-  //check if project already exists if not create one, and add item
-  if (project) {
-    project.addItem(newItem);
-  } else {
-    project = createProject(projectName);
-    projectsList.addProject(project);
-    project.addItem(newItem);
-
-    //datalist function
-  }
-
-  let newItemDiv = createToDoItemAsElement(newItem);
-  let mainDiv = document.querySelector("#main");
-  mainDiv.appendChild(newItemDiv);
 }
 

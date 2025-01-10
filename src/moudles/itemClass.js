@@ -6,7 +6,7 @@ function getId(){
   idCount++;
   return idCount;
 }
-function Item(title, description, dueDate, priority, notes, status) {
+function Item(title, description, dueDate, priority, notes, status, id) {
       this.title = title;
       this.description = description;
       this.dueDate = dueDate;
@@ -14,5 +14,5 @@ function Item(title, description, dueDate, priority, notes, status) {
       this.notes = notes;
       this.forToday = 0;
       this.status = status;
-      this.id = getId();
+      this.id = id ? id : getId();
     }
