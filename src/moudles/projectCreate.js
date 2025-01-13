@@ -34,7 +34,7 @@ function createProject(name){
             list.splice(index, 1);
             return true;
         }else{
-            console.log("Id not found!!");
+            // console.log("Id not found!!");
             return false;
         }
         
@@ -51,9 +51,17 @@ function createProject(name){
         return list.find(((e) => e.id == itemId));
     }
 
-    //delete item by id..
+    const forTodayItemsArray = () =>{
+        let itemArray = [];
+        list.forEach((item) => {
+            if(item.forToday){
+                itemArray.push(item);
+            }
+        });
+        return itemArray
+    }
 
-    return {projectName, list, addItem, removeItemByName, findItemByName, findItemById, removeItemById}
+    return {projectName, list, addItem, removeItemByName, findItemByName, findItemById, removeItemById, forTodayItemsArray}
 }
 
 
@@ -70,6 +78,7 @@ function createProjectList(name){
         let index;
         let remove = list.find((value, indx) =>{
             index = indx;
+
             return value.name.toLowerCase() == name.toLowerCase();
         });
 
@@ -117,7 +126,24 @@ function createProjectList(name){
         return project.projectName
     }
 
+    const forTodayItemsArray = () =>{
+        let itemArray = []
+        list.forEach((project) =>{
+            let array = project.forTodayItemsArray();
+
+            if(array && array.length){
+                itemArray.push(...array);
+            }
+        })
+
+        if(itemArray && itemArray.length){
+            return itemArray;
+        }else{
+            return false;
+        }
+    }
 
 
-    return {ListName, list, addProject, removeProject, findProjectByName, getProjectNameArray, findItemById, deleteItemById, findProjectNameByItemId};
+
+    return {ListName, list, addProject, removeProject, findProjectByName, getProjectNameArray, findItemById, deleteItemById, findProjectNameByItemId,forTodayItemsArray};
 }

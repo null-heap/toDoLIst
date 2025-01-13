@@ -16,6 +16,8 @@ import { screenUpdate } from "./screenController.js";
 
 import setToDoComplete from "./setToDoComplete.js"
 
+
+
 function createToDoItemAsElement(toDoItem) {
   let mainDiv = document.createElement("div");
   mainDiv.classList.add("toDoItemDiv");
@@ -86,6 +88,7 @@ function createToDoItemAsElement(toDoItem) {
   let todayCheckBox = document.createElement("input");
   todayCheckBox.type = "checkbox";
   todayCheckBox.classList.add("todayCheckBox");
+  console.log("todoitd = " + toDoItem.forToday);
   todayCheckBox.checked = toDoItem.forToday;
   todayCheckBoxDiv.append(todayCheckBoxTitle, todayCheckBox);
   //
@@ -97,11 +100,18 @@ function createToDoItemAsElement(toDoItem) {
   let completeCheckBox = document.createElement("input");
   completeCheckBox.type = "checkbox";
   completeCheckBox.classList.add("completeCheckBox");
-  if (toDoItem.status == "completed") {
+  console.log(toDoItem.status);
+  if (toDoItem.status) {
     completeCheckBox.checked = true;
+    completeCheckBox.disabled = true;
+    todayCheckBox.disabled = true;
   }
   completeCheckBoxDiv.append(completeCheckBoxTitle, completeCheckBox);
   //
+
+
+
+
 
   //
   let topDiv = document.createElement("div");
@@ -281,7 +291,11 @@ function toDoItemsClickEvents(projectsList) {
 
         ///might implement as function in the future
         toDoItemObject.forToday = checkBox.checked;
-        console.log(toDoItemObject);
+        
+
+        //for testing...
+        let itemArray = projectsList.forTodayItemsArray();
+        console.table(itemArray);
     }
 
 
@@ -293,10 +307,14 @@ function toDoItemsClickEvents(projectsList) {
         let checkBox = toDoItemDiv.querySelector('.completeCheckBox');
         
         console.log(toDoItemObject);
+
         if(checkBox.checked){
-            
+            checkBox.disabled = true;
             setToDoComplete(toDoItemObject);
             setBorderByPriority(toDoItemDiv, toDoItemObject.priority);
+
+            let todayCheckBox = toDoItemDiv.querySelector('.todayCheckBox');
+            todayCheckBox.disabled = true;
         }
     }
 
@@ -314,14 +332,21 @@ function addItemFromDom(projectsList, taskForm, id) {
   const projectName = formInputs.textInputs["project-choice"].value;
   const itemTitle = formInputs.textInputs["TaskName"].value;
   const description = formInputs.textAreaInputs["description"].value;
-  const priority = getCheckedRadioInput(formInputs.radioInputs).value;
-  const forToday = formInputs.checkBoxInputs["forToday"].checked;
+  let priority = getCheckedRadioInput(formInputs.radioInputs).value;
+  let forToday = formInputs.checkBoxInputs["forToday"].checked;
   const dueDate = formInputs.dateInputs["dueDate"].value;
-  const status = (formInputs.selectInputs["status"].value == "complete") ? 1 : 0;
+  const status = (formInputs.selectInputs["status"].value == "completed") ? 1 : 0;
   const notes = formInputs.textInputs["notes"].value;
   let project = projectsList.findProjectByName(projectName);
 
   let newItem;
+
+  //if set as complete will delete the priority...
+  if(priority != 0 && status){
+    priority = 0;
+    forToday = false;
+  }
+
   //if id is supplied and not already exists will add the supplied id...
   if (id && !projectsList.findItemById(id)) {
     newItem = new Item(
@@ -331,6 +356,7 @@ function addItemFromDom(projectsList, taskForm, id) {
       priority,
       notes,
       status,
+      forToday,
       id
     );
   } else {
@@ -340,15 +366,13 @@ function addItemFromDom(projectsList, taskForm, id) {
       dueDate,
       priority,
       notes,
-      status
+      status,
+      forToday
     );
   }
 
-
-
-  //the function for forToday and status are separated to update screen there own functions.
-  newItem.forToday = forToday;
-
+  
+  console.log("fortoasdfsd = " + newItem.forToday);
   //check if project already exists if not create one, and add item
   if (project) {
     project.addItem(newItem);
