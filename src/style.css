@@ -280,7 +280,6 @@ dialog[open]::backdrop {
         width: 100%;
         border-bottom: 0.7px solid darkblue;
         display: flex;
-        justify-content: space-between;
         padding: 0.3em 0;
 
         span {
@@ -289,6 +288,7 @@ dialog[open]::backdrop {
       }
 
       .numberCount {
+        margin-left: auto;
         flex-grow: 0;
         flex-shrink: 0;
         padding: 0 0.4em;
@@ -296,10 +296,14 @@ dialog[open]::backdrop {
         background-color: var(--active-clr);
       }
     }
+    .deleteButton{
+      border-radius: 15px;
+    }
 
     #addProjectLi {
       padding: 0.3em 0.2em;
       gap: 0.3em;
+
 
       > button {
         font-size: 10px;

@@ -19,6 +19,9 @@ function screenUpdate(projectsList) {
     subMenu.innerText = "";
     let list = projectsList.list;
     list.forEach((project) => {
+      let deleteButton = document.createElement("button");
+      deleteButton.innerText = "X";
+      deleteButton.classList.add("deleteButton", "buttonStyle");
       let newLi = document.createElement("li");
       let newButton = document.createElement("button");
       // newButton.classList.add('buttonStyle');
@@ -26,6 +29,10 @@ function screenUpdate(projectsList) {
       let newSpan = document.createElement("span");
       newSpan.innerText = project.projectName;
       newButton.appendChild(newSpan);
+      newButton.classList.add("projectButton");
+
+      
+      newLi.appendChild(deleteButton);
       newLi.appendChild(newButton);
   
       let newNumberSpan = document.createElement("span");

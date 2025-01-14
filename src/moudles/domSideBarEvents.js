@@ -1,7 +1,7 @@
 export { sideBarEvents };
 import { createProject} from "./projectCreate.js";
 
-import { addItemFromDom, addItemToDom } from "./domToDoItem.js";
+import { addItemFromDom, addItemToDom, displayItems } from "./domToDoItem.js";
 
 import { screenUpdate } from "./screenController.js";
 import {
@@ -39,15 +39,7 @@ function sideBarEvents(projectsList) {
       //reading the values from the form and storing them
 
       let addTaskForm = sideBar.querySelector("#addTaskForm");
-      let newItem = addItemFromDom(projectsList, addTaskForm);
-
-
-
-      //for testing
-      addItemToDom(newItem);
-
-
-
+      addItemFromDom(projectsList, addTaskForm);
       screenUpdate(projectsList);
     }
 
@@ -79,6 +71,24 @@ function sideBarEvents(projectsList) {
         let taskForm = sideBar.querySelector('#addTaskForm');
         clearForm(taskForm, false);
     }
+
+    //projects submenu button functionality
+    target = e.target.closest("#projectsSubMenu .projectButton");
+    if(target){
+        let projectName = target.querySelector("span").innerText;
+        let project = projectsList.findProjectByName(projectName);
+        displayItems(project);
+    }
+    
+
+    //delete project button functionality
+    target = e.target.closest("#projectsSubMenu .deleteButton");
+    if(target){
+        let projectName = target.nextElementSibling.querySelector("span").innerText;
+        projectsList.removeProject(projectName);
+        screenUpdate(projectsList);
+    }
+    
   });
 }
 
