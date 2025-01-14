@@ -77,7 +77,7 @@ function sideBarEvents(projectsList) {
     if(target){
         let projectName = target.querySelector("span").innerText;
         let project = projectsList.findProjectByName(projectName);
-        displayItems(project);
+        displayItems(project.list);
     }
     
 
@@ -87,6 +87,11 @@ function sideBarEvents(projectsList) {
         let projectName = target.nextElementSibling.querySelector("span").innerText;
         projectsList.removeProject(projectName);
         screenUpdate(projectsList);
+    }
+
+    target = e.target.closest('#todayButton');
+    if(target){
+        
     }
     
   });

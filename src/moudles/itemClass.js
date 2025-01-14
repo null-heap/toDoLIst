@@ -9,37 +9,23 @@ function getId(){
   return idCount;
 }
 
-
-class ForToday {
-  constructor(forToday) {
-    this._forToday = forToday ? new Date() : false;
+class Item {
+  constructor(title, description, dueDate, priority, notes, status, forToday, id) {
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+    this.priority = priority;
+    this.notes = notes;
+    this.status = status;
+    this.id = id ? id : getId();
+    this._forToday = forToday ? new Date() : null;
   }
 
   get forToday() {
-    if (this._forToday) {
-      return isToday(this._forToday);
-    } else {
-      return false;
-    }
+    return this._forToday ? isToday(this._forToday) : false;
   }
 
   set forToday(value) {
-    if (value) {
-      this._forToday = new Date();
-    } else {
-      this._forToday = false;
-    }
+    this._forToday = value ? new Date() : null;
   }
 }
-
-function Item(title, description, dueDate, priority, notes, status, forToday, id) {
-      this.title = title;
-      this.description = description;
-      this.dueDate = dueDate;
-      this.priority = priority;
-      this.notes = notes;
-      this.forToday = new ForToday(forToday);
-      this.status = status;
-      this.id = id ? id : getId();
-    }
-

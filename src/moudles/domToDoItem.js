@@ -93,8 +93,9 @@ function createToDoItemAsElement(toDoItem) {
   let todayCheckBox = document.createElement("input");
   todayCheckBox.type = "checkbox";
   todayCheckBox.classList.add("todayCheckBox");
-  console.log("todoitd = " + toDoItem.forToday);
+  console.log(toDoItem.forToday);
   todayCheckBox.checked = toDoItem.forToday;
+  console.log(todayCheckBox.checked);
   todayCheckBoxDiv.append(todayCheckBoxTitle, todayCheckBox);
   //
   let completeCheckBoxDiv = document.createElement("div");
@@ -413,10 +414,12 @@ function addItemToDom(newItem) {
 }
 
 
-function displayItems(project){
+function displayItems(itemArray){
   let mainDiv = document.querySelector("#main");
-  mainDiv.innerHTML = "";
-  project.list.forEach((item) => {
+  let dialog = mainDiv.querySelector("#editTaskDialog");
+  mainDiv.innerText = "";
+  mainDiv.appendChild(dialog);
+  itemArray.forEach((item) => {
     addItemToDom(item);
   });
 }
