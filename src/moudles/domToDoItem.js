@@ -16,7 +16,7 @@ import { createProject } from "./projectCreate.js";
 import { screenUpdate } from "./screenController.js";
 
 import setToDoComplete from "./setToDoComplete.js";
-import { isPast } from "date-fns";
+import { isPast, set } from "date-fns";
 
 function createToDoItemAsElement(toDoItem) {
   let mainDiv = document.createElement("div");
@@ -415,9 +415,18 @@ function addItemToDom(newItem) {
 
 function displayItems(itemArray) {
   let mainDiv = document.querySelector("#main");
-  let dialog = mainDiv.querySelector("#editTaskDialog");
-  mainDiv.innerText = "";
-  mainDiv.appendChild(dialog);
+  let itemDivs = mainDiv.querySelectorAll(".toDoItemDiv");
+  itemDivs.forEach((itemDiv) => {
+    itemDiv.classList.add("close");
+
+    //remove the itemDiv after the transition of animation
+    setTimeout(() => {
+      itemDiv.remove();
+    }, 500);
+
+
+  });
+
   if (itemArray && itemArray.length) {
     itemArray.forEach((item) => {
       addItemToDom(item);
