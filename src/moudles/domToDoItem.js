@@ -93,9 +93,7 @@ function createToDoItemAsElement(toDoItem) {
   let todayCheckBox = document.createElement("input");
   todayCheckBox.type = "checkbox";
   todayCheckBox.classList.add("todayCheckBox");
-  console.log(toDoItem.forToday);
   todayCheckBox.checked = toDoItem.forToday;
-  console.log(todayCheckBox.checked);
   todayCheckBoxDiv.append(todayCheckBoxTitle, todayCheckBox);
   //
   let completeCheckBoxDiv = document.createElement("div");
@@ -106,7 +104,6 @@ function createToDoItemAsElement(toDoItem) {
   let completeCheckBox = document.createElement("input");
   completeCheckBox.type = "checkbox";
   completeCheckBox.classList.add("completeCheckBox");
-  // console.log(toDoItem.status);
   //if status is complete will disable the checkbox
   if (toDoItem.status) {
     completeCheckBox.checked = true;
@@ -312,7 +309,6 @@ function toDoItemsClickEvents(projectsList) {
       );
       let checkBox = toDoItemDiv.querySelector(".completeCheckBox");
 
-      console.log(toDoItemObject);
 
       if (checkBox.checked) {
         checkBox.disabled = true;
@@ -384,7 +380,6 @@ function addItemFromDom(projectsList, taskForm, id) {
     );
   }
 
-  console.log("fortoasdfsd = " + newItem.forToday);
   //check if project already exists if not create one, and add item
   if (project) {
     project.addItem(newItem);
@@ -394,7 +389,6 @@ function addItemFromDom(projectsList, taskForm, id) {
     project.addItem(newItem);
   }
 
-  console.log(newItem);
   return newItem;
 }
 

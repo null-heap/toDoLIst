@@ -16,8 +16,6 @@ function createProject(name) {
 
     if (remove != undefined) {
       list.splice(index, 1);
-    } else {
-      console.log("title not found!!");
     }
   };
 
@@ -32,7 +30,6 @@ function createProject(name) {
       list.splice(index, 1);
       return true;
     } else {
-      // console.log("Id not found!!");
       return false;
     }
   };
@@ -97,9 +94,6 @@ function createProjectList(name) {
 
     if (remove != undefined) {
       list.splice(index, 1);
-      console.log(list);
-    } else {
-      console.log("name not found!!");
     }
   };
 
@@ -194,7 +188,6 @@ const searchItems = (searchValue) => {
       itemArray.push(...array);
     }
   });
-  console.log(itemArray);
   return itemArray;
 };
 
