@@ -1,12 +1,10 @@
 export { sideBarEvents };
-import { createProject} from "./projectCreate.js";
+import { createProject } from "./projectCreate.js";
 
 import { addItemFromDom, addItemToDom, displayItems } from "./domToDoItem.js";
 
 import { screenUpdate } from "./screenController.js";
-import {
-    clearForm,
-  } from "./functionsForForms.js";
+import { clearForm } from "./functionsForForms.js";
 function sideBarEvents(projectsList) {
   const sideBar = document.querySelector("nav");
   sideBar.addEventListener("click", (e) => {
@@ -65,35 +63,64 @@ function sideBarEvents(projectsList) {
     }
 
     //form clear button functionality
-    target = e.target.closest('#addTaskFormClear');
-    if(target){
-        e.preventDefault();
-        let taskForm = sideBar.querySelector('#addTaskForm');
-        clearForm(taskForm, false);
+    target = e.target.closest("#addTaskFormClear");
+    if (target) {
+      e.preventDefault();
+      let taskForm = sideBar.querySelector("#addTaskForm");
+      clearForm(taskForm, false);
     }
 
     //projects submenu button functionality
     target = e.target.closest("#projectsSubMenu .projectButton");
-    if(target){
-        let projectName = target.querySelector("span").innerText;
-        let project = projectsList.findProjectByName(projectName);
-        displayItems(project.list);
+    if (target) {
+      let projectName = target.querySelector("span").innerText;
+      let project = projectsList.findProjectByName(projectName);
+      displayItems(project.list);
     }
-    
 
     //delete project button functionality
     target = e.target.closest("#projectsSubMenu .deleteButton");
-    if(target){
-        let projectName = target.nextElementSibling.querySelector("span").innerText;
+    if (target) {
+      let answer = confirm("Are you sure you want to delete this project?");
+      if (answer) {
+        let projectName =
+          target.nextElementSibling.querySelector("span").innerText;
         projectsList.removeProject(projectName);
         screenUpdate(projectsList);
+      }
     }
 
-    target = e.target.closest('#todayButton');
-    if(target){
-        
+    target = e.target.closest("#searchButton");
+    if (target) {
+      let searchInput = sideBar.querySelector("#search");
+      searchInput.classList.toggle("hidden");
+      const abortSignal = new AbortController();
+
+      if (!searchInput.classList.contains("hidden")) {
+        searchInput.focus();
+        searchInput.addEventListener("input", () => {
+          let searchValue = searchInput.value;
+          let searchResults = projectsList.searchItems(searchValue);
+          displayItems(searchResults);
+        });
+      }else{
+        abortSignal.abort();
+      }
     }
-    
+
+    //today button functionality
+    //displaying the items that are for today
+    target = e.target.closest("#todayButton");
+    if (target) {
+      let todayItems = projectsList.forTodayItemsArray();
+      displayItems(todayItems);
+    }
+
+    target = e.target.closest("#allButton");
+    if (target) {
+      let allItems = projectsList.getAllItemsArray();
+      displayItems(allItems);
+    }
   });
 }
 
@@ -148,4 +175,3 @@ function subMenuAddButton(ulDivElement, projectList) {
     ulDivElement.insertBefore(newElements.li, ulDivElement.firstChild);
   }
 }
-

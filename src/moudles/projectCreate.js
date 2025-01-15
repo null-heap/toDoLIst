@@ -147,7 +147,6 @@ function createProjectList(name) {
         itemArray.push(...array);
       }
     });
-
     if (itemArray && itemArray.length) {
       return itemArray;
     } else {
@@ -172,6 +171,33 @@ function createProjectList(name) {
     }
   };
 
+  const getAllItemsArray = () => {
+    let itemArray = [];
+    list.forEach((project) => {
+      itemArray.push(...project.list);
+    });
+
+    return itemArray;
+};
+
+const searchItems = (searchValue) => {
+  let itemArray = [];
+  if(searchValue == ""){
+    return itemArray;
+  }
+  list.forEach((project) => {
+    let array = project.list.filter((item) => {
+      return item.title.toLowerCase().includes(searchValue.toLowerCase()) || item.id == +searchValue;
+    });
+
+    if (array && array.length) {
+      itemArray.push(...array);
+    }
+  });
+  console.log(itemArray);
+  return itemArray;
+};
+
   return {
     ListName,
     list,
@@ -184,5 +210,7 @@ function createProjectList(name) {
     findProjectNameByItemId,
     forTodayItemsArray,
     pastDueDateItemsArray,
+    getAllItemsArray,
+    searchItems,
   };
 }

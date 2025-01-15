@@ -413,13 +413,14 @@ function addItemToDom(newItem) {
   mainDiv.appendChild(newItemDiv);
 }
 
-
-function displayItems(itemArray){
+function displayItems(itemArray) {
   let mainDiv = document.querySelector("#main");
   let dialog = mainDiv.querySelector("#editTaskDialog");
   mainDiv.innerText = "";
   mainDiv.appendChild(dialog);
-  itemArray.forEach((item) => {
-    addItemToDom(item);
-  });
+  if (itemArray && itemArray.length) {
+    itemArray.forEach((item) => {
+      addItemToDom(item);
+    });
+  }
 }
