@@ -626,11 +626,10 @@ dialog[open]::backdrop {
 } 
 
 .toDoItemDiv{
-  animation: fadeIn 500ms;
+  animation: fadeIn 1s;
 }
 
 .toDoItemDiv.close{
-    opacity: 0;
     animation: fadeOut 500ms;
   
 }
@@ -649,6 +648,7 @@ dialog[open]::backdrop {
     opacity: 1;
   }
   to {
+    display: none;
     opacity: 0;
   }
 }

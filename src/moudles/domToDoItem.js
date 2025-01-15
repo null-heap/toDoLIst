@@ -278,12 +278,12 @@ function toDoItemsClickEvents(projectsList) {
       );
       if (result) {
         projectsList.deleteItemById(item.dataset.itemId);
-        item.remove();
+
+        //delete from dom
+        deleteItemDiv(item);
 
         screenUpdate(projectsList);
       }
-
-      //delete from dom..
     }
 
     //checkbox forToday functionality
@@ -407,24 +407,12 @@ function replaceItemInDomById(newItem) {
   oldDomItem.replaceWith(newDomItem);
 }
 
-function addItemToDom(newItem) {
-  let newItemDiv = createToDoItemAsElement(newItem);
-  let mainDiv = document.querySelector("#main");
-  mainDiv.appendChild(newItemDiv);
-}
 
 function displayItems(itemArray) {
   let mainDiv = document.querySelector("#main");
   let itemDivs = mainDiv.querySelectorAll(".toDoItemDiv");
   itemDivs.forEach((itemDiv) => {
-    itemDiv.classList.add("close");
-
-    //remove the itemDiv after the transition of animation
-    setTimeout(() => {
-      itemDiv.remove();
-    }, 500);
-
-
+    deleteItemDiv(itemDiv);
   });
 
   if (itemArray && itemArray.length) {
@@ -432,4 +420,26 @@ function displayItems(itemArray) {
       addItemToDom(item);
     });
   }
+}
+
+let animationDelay = 400;
+
+function addItemToDom(newItem) {
+  let newItemDiv = createToDoItemAsElement(newItem);
+  let mainDiv = document.querySelector("#main");
+
+  //the timeout is for the transition animation
+  setTimeout(() => {
+    mainDiv.appendChild(newItemDiv);
+  }, animationDelay);
+}
+
+function deleteItemDiv(itemDiv){
+  //for the transition animation
+  itemDiv.classList.add("close");
+
+  //remove the itemDiv after the transition of animation
+  setTimeout(() => {
+    itemDiv.remove();
+  }, (animationDelay-100));
 }

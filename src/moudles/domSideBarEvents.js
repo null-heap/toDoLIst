@@ -101,8 +101,9 @@ function sideBarEvents(projectsList) {
         searchInput.addEventListener("input", () => {
           let searchValue = searchInput.value;
           let searchResults = projectsList.searchItems(searchValue);
+          console.log(searchResults);
           displayItems(searchResults);
-        });
+        },{signal: abortSignal.signal});
       }else{
         abortSignal.abort();
       }
