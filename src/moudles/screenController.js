@@ -1,5 +1,5 @@
 export {screenUpdate}
-
+import {loadProjectListFromLocalStorage, saveProjectListToLocalStorage} from "./localStorageFunctions.js";
 
 function screenUpdate(projectsList) {
     //updating the project names in select elements
@@ -12,6 +12,10 @@ function screenUpdate(projectsList) {
 
     //update project sidebar submenu
     updateProjectSubMenuInDom(projectsList);
+
+    //save the project list to local storage
+    // console.log(projectsList);
+    saveProjectListToLocalStorage(projectsList);
   }
   
   function updateProjectSubMenuInDom(projectsList) {
